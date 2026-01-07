@@ -11,28 +11,49 @@ namespace CRUDbiblioteca.clienteDependencias
 {
     namespace CRUDbiblioteca
     {
-        public class ClienteDAO
+        public class funcoesCliente
         {
-            // Certifique-se de que a string de conexão está correta para o seu PC
             private string conexaoString = ConfigurationManager.ConnectionStrings["SQLSERVER_LOCAL"].ConnectionString;
 
-            public string Cadastrar(modelCliente objetoCliente) 
+            public string Cadastrar(string nome, string email, string telefone, string CPF,string TipoCliente)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = "INSERT INTO cliente (nome, email, telefone) VALUES (@nome, @email, @telefone)";
+                    string sql = "INSERT INTO cliente (nome, email, telefone, cpf,tipoCliente) VALUES (@nome,@email,@telefone,@cpf,@tipoCliente)";
                     SqlCommand cmd = new SqlCommand(sql, conexao);
 
-                    // Vinculando os dados do MODEL (Cliente) aos parâmetros do SQL
-                    cmd.Parameters.AddWithValue("@nome", objetoCliente.Nome);
+                    cmd.Parameters.AddWithValue("@nome", nome);
+                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@telefone", telefone);
+                    cmd.Parameters.AddWithValue("@cpf", CPF);
+                    cmd.Parameters.AddWithValue("@tipoCliente", TipoCliente);
 
-                    // Trata o email nulo
-                    if (string.IsNullOrEmpty(objetoCliente.Email))
-                        cmd.Parameters.AddWithValue("@email", DBNull.Value);
-                    else
-                        cmd.Parameters.AddWithValue("@email", objetoCliente.Email);
+                    try
+                    {
+                        conexao.Open();
+                        cmd.ExecuteNonQuery();
+                        return null;
+                    }
+                    catch (Exception ex) 
+                    { 
+                        return "Erro ao cadastrar novo cliente: " + ex.Message; 
+                    }
+                }
+            }
 
-                    cmd.Parameters.AddWithValue("@telefone", objetoCliente.Telefone ?? (object)DBNull.Value);
+            public string Editar(int id, string nome, string email, string telefone, string CPF, string TipoCliente)
+            {
+                using (SqlConnection conexao = new SqlConnection(conexaoString))
+                {
+                    string sql = "UPDATE cliente SET nome=@nome, email=@email, telefone=@telefone, cpf=@cpf,tipoCliente=@TipoCliente WHERE idCliente=@id";
+                    SqlCommand cmd = new SqlCommand(sql, conexao);
+
+                    cmd.Parameters.AddWithValue("@nome", nome);
+                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@telefone", telefone);
+                    cmd.Parameters.AddWithValue("@cpf", CPF);
+                    cmd.Parameters.AddWithValue("@tipoCliente", TipoCliente);
+                    cmd.Parameters.AddWithValue("@id",id);
 
                     try
                     {
@@ -42,7 +63,7 @@ namespace CRUDbiblioteca.clienteDependencias
                     }
                     catch (Exception ex)
                     {
-                        return ex.Message;
+                        return "Erro ao editar cliente: " + ex.Message;
                     }
                 }
             }
@@ -77,23 +98,23 @@ namespace CRUDbiblioteca.clienteDependencias
                 DataTable tabela = new DataTable();
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    // Certifique-se que os nomes das colunas batem com o seu banco
                     string sql = "SELECT idCliente, nome, cpf, email, telefone, tipoCliente FROM cliente";
                     SqlDataAdapter adapter = new SqlDataAdapter(sql, conexao);
 
                     try
                     {
                         conexao.Open();
-                        adapter.Fill(tabela); // Preenche a tabela com os dados do banco
+                        adapter.Fill(tabela);
                     }
                     catch (Exception ex)
                     {
-                        // Se der erro aqui, ele avisará o motivo (ex: nome de tabela errado)
                         throw new Exception("Erro ao buscar dados: " + ex.Message);
                     }
                 }
                 return tabela;
             }
+
+
 
         }
     }

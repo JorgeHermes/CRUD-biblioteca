@@ -47,22 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bibliotecaDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>bibliotecaDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="clienteDependencias\funcoesCliente.cs" />
-    <Compile Include="FrmClientes.cs">
+    <Compile Include="modelos\clienteModelos\funcoesCliente.cs" />
+    <Compile Include="forms\FrmClientes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmClientes.Designer.cs">
+    <Compile Include="forms\FrmClientes.Designer.cs">
       <DependentUpon>FrmClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="clienteDependencias\modelCliente.cs" />
+    <Compile Include="modelos\clienteModelos\validacaoCliente.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmClientes.resx">
+    <EmbeddedResource Include="forms\FrmClientes.resx">
       <DependentUpon>FrmClientes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -75,17 +70,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="bibliotecaDataSet.xsc">
-      <DependentUpon>bibliotecaDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="bibliotecaDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>bibliotecaDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="bibliotecaDataSet.xss">
-      <DependentUpon>bibliotecaDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -99,5 +83,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon-16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple-touch-icon.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
