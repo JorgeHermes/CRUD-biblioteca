@@ -93,6 +93,7 @@ namespace CRUDbiblioteca.clienteDependencias
                     }
                 }
             }
+            
             public DataTable Listar()
             {
                 DataTable tabela = new DataTable();
@@ -114,9 +115,37 @@ namespace CRUDbiblioteca.clienteDependencias
                 return tabela;
             }
 
+            public bool ExisteNoBanco(string coluna, string valor)
+            {
+                using (SqlConnection conexao = new SqlConnection(conexaoString))
+                {
+                    string sql = $"SELECT COUNT(*) FROM cliente WHERE {coluna} = @valor";
+                    SqlCommand cmd = new SqlCommand(sql, conexao);
+                    cmd.Parameters.AddWithValue("@valor", valor);
 
+                    conexao.Open();
+
+                    int contagem = (int)cmd.ExecuteScalar();
+                    return contagem > 0;
+                }
+            }
+
+            public bool ExisteNoBancoEditar(string coluna, string valor, int idAtual)
+            {
+                using (SqlConnection conexao = new SqlConnection(conexaoString))
+                {
+                    string sql = $"SELECT COUNT(*) FROM cliente WHERE {coluna} = @valor AND idCliente <> @id";
+
+                    SqlCommand cmd = new SqlCommand(sql, conexao);
+                    cmd.Parameters.AddWithValue("@valor", valor);
+                    cmd.Parameters.AddWithValue("@id", idAtual);
+
+                    conexao.Open();
+                    int contagem = (int)cmd.ExecuteScalar();
+                    return contagem > 0;
+                }
+            }
 
         }
     }
 }
-

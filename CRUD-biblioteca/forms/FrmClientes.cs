@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -30,43 +32,31 @@ namespace CRUDbiblioteca
             LimparCampos();
         }
 
-        private void btnEditar_Click(object sender, EventArgs e) 
+        private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (dgvClientes.CurrentRow == null) 
+            if (!ValidarCamposObrigatorios()) return;
+
+            int idSelecionado = int.Parse(labId.Text);
+
+            funcoesCliente dao = new funcoesCliente();
+
+            if (dao.ExisteNoBancoEditar("cpf", maskCpf.Text, idSelecionado))
             {
-                MessageBox.Show("Selecione um cliente na grade primeiro");
+                MessageBox.Show("Este CPF já pertence a OUTRO cliente!");
                 return;
             }
 
-            int idSelecionado = 0;
-
-            try 
+            if (dao.ExisteNoBancoEditar("email", txtEmail.Text, idSelecionado))
             {
-                idSelecionado = Convert.ToInt32(dgvClientes.CurrentRow.Cells[0].Value);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao converter ID: Selecione uma linha válida. " + ex.Message);
-            }
-
-            if (string.IsNullOrWhiteSpace(txtNome.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                MessageBox.Show("Você não pode deixar o nome ou e-mail vazios ao editar!");
+                MessageBox.Show("Este Email já pertence a OUTRO cliente!");
                 return;
             }
-            funcoesCliente bd = new funcoesCliente();
 
-            string erro = bd.Editar(idSelecionado, txtNome.Text, txtEmail.Text, maskTelefone.Text, maskCpf.Text, cmbTipo.Text);
+            dao.Editar(idSelecionado, txtNome.Text, txtEmail.Text, maskTelefone.Text, maskCpf.Text, cmbTipo.Text);
 
-            if (erro == null)
-            {
-                MessageBox.Show("Cliente atualizado com sucesso!");
-                AtualizarGrade();
-                LimparCampos();
-            }
-            else {
-                MessageBox.Show(erro);
-            }
+            MessageBox.Show("Dados atualizados com sucesso!");
+            AtualizarGrade();
+            LimparCampos();
 
         }
 
@@ -107,35 +97,15 @@ namespace CRUDbiblioteca
         }
 
 
-        private void btnCadastrar_Click(object sender, EventArgs e) 
+        private void btnCadastrar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtNome.Text))
-            {
-                MessageBox.Show("O Nome é obrigatório.");
-                txtNome.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtEmail.Text) || !txtEmail.Text.Contains("@"))
-            {
-                MessageBox.Show("Insira um E-mail válido.");
-                txtEmail.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(maskCpf.Text))
-            {
-                MessageBox.Show("É necessário o CPF para seu cadastro!");
-                return;
-            }
-
-            if (cmbTipo.SelectedIndex == -1)
-            {
-                MessageBox.Show("Selecione o Tipo de Cliente.");
-                return;
-            }
-
             funcoesCliente dao = new funcoesCliente();
+
+            if (!ValidarCamposObrigatorios()) return;
+
+            if (dao.ExisteNoBanco("cpf", maskCpf.Text)) { MessageBox.Show("CPF já existe!"); return; }
+            if (dao.ExisteNoBanco("email", txtEmail.Text)) { MessageBox.Show("Email já existe!"); return; }
+
             string erro = dao.Cadastrar(txtNome.Text, txtEmail.Text, maskTelefone.Text, maskCpf.Text, cmbTipo.Text);
 
             if (erro == null)
@@ -149,6 +119,7 @@ namespace CRUDbiblioteca
                 MessageBox.Show(erro);
             }
         }
+
 
         private void LimparCampos()
         {
@@ -177,21 +148,60 @@ namespace CRUDbiblioteca
             {
                 MessageBox.Show("Erro ao carregar dados: " + ex.Message);
             }
+
+            dgvClientes.Columns["idCliente"].Visible = false;
         }
 
-        private void dgvClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private bool ValidarCamposObrigatorios()
+        {
+            if (string.IsNullOrWhiteSpace(txtNome.Text))
+            {
+                MessageBox.Show("O Nome é obrigatório.");
+                txtNome.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text) || !txtEmail.Text.Contains("@"))
+            {
+                MessageBox.Show("Insira um E-mail válido.");
+                txtEmail.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(maskCpf.Text))
+            {
+                MessageBox.Show("É necessário o CPF!");
+                maskCpf.Focus();
+                return false;
+            }
+
+            if (cmbTipo.SelectedIndex == -1)
+            {
+                MessageBox.Show("Selecione o Tipo de Cliente.");
+                cmbTipo.Focus();
+                return false;
+            }
+
+            return true; // Se não caiu em nenhum IF, está tudo OK!
+        }
+
+        private void dgvClientes_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
+
                 DataGridViewRow linha = dgvClientes.Rows[e.RowIndex];
 
+                labId.Text = linha.Cells["idCliente"].Value.ToString();
                 txtNome.Text = linha.Cells["nome"].Value.ToString();
                 txtEmail.Text = linha.Cells["email"].Value.ToString();
                 maskTelefone.Text = linha.Cells["telefone"].Value.ToString();
                 maskCpf.Text = linha.Cells["cpf"].Value.ToString();
                 cmbTipo.Text = linha.Cells["tipoCliente"].Value.ToString();
+
             }
         }
+
+
     }
-    
 }

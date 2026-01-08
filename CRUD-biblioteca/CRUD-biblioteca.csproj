@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="modelos\clienteModelos\Conexao.cs" />
     <Compile Include="modelos\clienteModelos\funcoesCliente.cs" />
     <Compile Include="forms\FrmClientes.cs">
       <SubType>Form</SubType>
