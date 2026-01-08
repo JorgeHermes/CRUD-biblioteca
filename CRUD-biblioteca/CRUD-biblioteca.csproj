@@ -47,6 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="forms\FrmLivros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FrmLivros.Designer.cs">
+      <DependentUpon>FrmLivros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="modelos\livrosModelos\Conexao.cs" />
+    <Compile Include="modelos\livrosModelos\funcoesLivro.cs" />
+    <Compile Include="modelos\livrosModelos\validacaoLivro.cs" />
     <Compile Include="modelos\clienteModelos\Conexao.cs" />
     <Compile Include="modelos\clienteModelos\funcoesCliente.cs" />
     <Compile Include="forms\FrmClientes.cs">
@@ -60,6 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="forms\FrmClientes.resx">
       <DependentUpon>FrmClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\FrmLivros.resx">
+      <DependentUpon>FrmLivros.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
