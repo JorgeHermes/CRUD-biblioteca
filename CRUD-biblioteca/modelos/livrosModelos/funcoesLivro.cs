@@ -41,19 +41,19 @@ namespace CRUDbiblioteca.clienteDependencias
                 }
             }
 
-            public string EditarLivro(int id, string titulo, string autor, string anoPublica, string qtdDisp, string qtdTotal)
+            public string EditarLivro(int id, string titulo, string autor, int anoPublica, int qtdTotal)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = "UPDATE cliente SET titulo=@titulo, autor=@autor, anoPublica=@anoPublica, qtdTotal=@qtdTotal,qtdDisp=@qtdDisp WHERE idLivro=@id";
+                    // REMOVEMOS o qtdDisp do SQL abaixo:
+                    string sql = "UPDATE livro SET titulo=@titulo, autor=@autor, anoPublica=@anoPublica, qtdTotal=@qtdTotal WHERE idLivro=@id";
                     SqlCommand cmd = new SqlCommand(sql, conexao);
 
                     cmd.Parameters.AddWithValue("@titulo", titulo);
                     cmd.Parameters.AddWithValue("@autor", autor);
                     cmd.Parameters.AddWithValue("@anoPublica", anoPublica);
-                    cmd.Parameters.AddWithValue("@id", id);
                     cmd.Parameters.AddWithValue("@qtdTotal", qtdTotal);
-                    cmd.Parameters.AddWithValue("@qtdDisp", qtdDisp);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     try
                     {
@@ -63,7 +63,7 @@ namespace CRUDbiblioteca.clienteDependencias
                     }
                     catch (Exception ex)
                     {
-                        return "Erro ao editar livro: " + ex.Message;
+                        return "Erro ao editar: " + ex.Message;
                     }
                 }
             }
@@ -143,6 +143,19 @@ namespace CRUDbiblioteca.clienteDependencias
                     conexao.Open();
                     int contagem = (int)cmd.ExecuteScalar();
                     return contagem > 0;
+                }
+            }
+
+            public DataTable BuscarLivroPorId(int id)
+            {
+                using (SqlConnection conexao = new SqlConnection(conexaoString))
+                {
+                    string sql = "SELECT qtdTotal, qtdDisp FROM livro WHERE idLivro = @id";
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conexao);
+                    da.SelectCommand.Parameters.AddWithValue("@id", id);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    return dt;
                 }
             }
 

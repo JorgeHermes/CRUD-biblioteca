@@ -182,7 +182,7 @@ namespace CRUDbiblioteca
                 return false;
             }
 
-            return true; // Se não caiu em nenhum IF, está tudo OK!
+            return true;
         }
 
         private void dgvClientes_CellClick_1(object sender, DataGridViewCellEventArgs e)
