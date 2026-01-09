@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace CRUDbiblioteca.clienteDependencias
         {
             private string conexaoString = ConfigurationManager.ConnectionStrings["SQLSERVER_LOCAL"].ConnectionString;
 
-            public string CadastrarLivro(string titulo, string autor, string anoPublica, string qtdDisp,string qtdTotal)
+            public string CadastrarLivro(string titulo, string autor, int anoPublica, int qtdTotal, int qtdDisp)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
@@ -115,18 +116,24 @@ namespace CRUDbiblioteca.clienteDependencias
                 return tabela;
             }
 
-            public bool ExisteNoBancoLivro(string coluna, string valor)
+            public int ObterIdExisteNoBancoLivro(string titulo, string autor, int anoPublica)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = $"SELECT COUNT(*) FROM livro WHERE {coluna} = @valor";
+                    // Usamos UPPER para evitar problemas com maiúsculas/minúsculas
+                    string sql = "SELECT idLivro FROM livro WHERE UPPER(titulo) = UPPER(@titulo) AND UPPER(autor) = UPPER(@autor) AND UPPER(anoPublica) = UPPER(@anoPublica)";
                     SqlCommand cmd = new SqlCommand(sql, conexao);
-                    cmd.Parameters.AddWithValue("@valor", valor);
+                    cmd.Parameters.AddWithValue("@titulo", titulo.Trim());
+                    cmd.Parameters.AddWithValue("@autor", autor.Trim());
+                    cmd.Parameters.AddWithValue("@anoPublica", anoPublica);
 
-                    conexao.Open();
-
-                    int contagem = (int)cmd.ExecuteScalar();
-                    return contagem > 0;
+                    try
+                    {
+                        conexao.Open();
+                        object resultado = cmd.ExecuteScalar();
+                        return (resultado != null) ? Convert.ToInt32(resultado) : 0;
+                    }
+                    catch { return 0; }
                 }
             }
 

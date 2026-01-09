@@ -120,6 +120,7 @@
             this.btnCadastrarLivro.TabIndex = 7;
             this.btnCadastrarLivro.Text = "Cadastrar";
             this.btnCadastrarLivro.UseVisualStyleBackColor = false;
+            this.btnCadastrarLivro.Click += new System.EventHandler(this.btnCadastrarLivro_Click);
             // 
             // groupBox2
             // 

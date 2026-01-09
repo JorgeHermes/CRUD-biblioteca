@@ -16,6 +16,16 @@ namespace CRUDbiblioteca
 {
     public partial class FrmLivros : Form
     {
+        private static readonly (string chave, string titulo)[] ColunasGrid =
+        {
+            ("idLivro", "Código"),
+            ("titulo", "Título do Livro"),
+            ("autor", "Autor"),
+            ("anoPublica", "Ano"),
+            ("qtdTotal", "Total"),
+            ("qtdDisp", "Disponível")
+        };
+
         public FrmLivros()
         {
             InitializeComponent();
@@ -42,19 +52,26 @@ namespace CRUDbiblioteca
             {
                 funcoesLivro dao = new funcoesLivro();
                 dgvLivros.DataSource = dao.ListarLivro();
-
-                if (dgvLivros.Columns.Contains("id")) 
-                {
-                    dgvLivros.Columns["id"].HeaderText = "Código";
-                    dgvLivros.Columns["id"].DisplayIndex = 0;
-                }
+                ConfigurarGridLivros();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao carregar dados: " + ex.Message);           
             }
+        }
 
-            dgvLivros.Columns["idLivro"].Visible = false;
+        private void ConfigurarGridLivros()
+        {
+            if (dgvLivros.Columns.Contains("idLivro"))
+                dgvLivros.Columns["idLivro"].Visible = false;
+
+            foreach ((string chave, string titulo) in ColunasGrid)
+            {
+                if (dgvLivros.Columns.Contains(chave))
+                {
+                    dgvLivros.Columns[chave].HeaderText = titulo;
+                }
+            }
         }
 
         private bool ValidarCamposObrigatorios()
@@ -164,6 +181,44 @@ namespace CRUDbiblioteca
                     MessageBox.Show("Erro ao converter ID: Selecione uma linha válida. " + ex.Message);
                 }
             }
+        }
+
+        private void btnCadastrarLivro_Click(object sender, EventArgs e)
+        {
+            if (!ValidarCamposObrigatorios()) return;
+
+            funcoesLivro dao = new funcoesLivro();
+            string titulo = txtTitulo.Text;
+            string autor = txtAutor.Text;
+            int anoPublica = (int)numAno.Value;
+            int qtdDigitada = (int)numQtdTotal.Value;
+
+            // 1. Pergunta ao banco se esse par (Título + Autor) já existe
+            int idExistente = dao.ObterIdExisteNoBancoLivro(titulo, autor, anoPublica);
+
+            if (idExistente > 0)
+            {
+                // 2. EXISTE: Vamos somar à quantidade que já está lá
+                DataTable dt = dao.BuscarLivroPorId(idExistente);
+                int totalAtualNoBanco = Convert.ToInt32(dt.Rows[0]["qtdTotal"]);
+
+                int novoTotalAcumulado = totalAtualNoBanco + qtdDigitada;
+
+                // Chamamos o Editar (A sua TRIGGER de Update vai ajustar a qtdDisp sozinha!)
+                dao.EditarLivro(idExistente, titulo, autor, (int)numAno.Value, novoTotalAcumulado);
+
+                MessageBox.Show($"O livro '{titulo}' já existia. Estoque atualizado para {novoTotalAcumulado} unidades.");
+            }
+            else
+            {
+                // 3. NÃO EXISTE: Cadastro normal
+                // Aqui você chama o seu método de CadastrarLivro (INSERT)
+                dao.CadastrarLivro(titulo, autor, (int)numAno.Value, qtdDigitada, qtdDigitada);
+                MessageBox.Show("Livro cadastrado com sucesso!");
+            }
+
+            AtualizarGrade();
+            LimparCampos();
         }
     }
     }
