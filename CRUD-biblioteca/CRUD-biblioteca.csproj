@@ -47,12 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="forms\FrmEmprestimos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FrmEmprestimos.Designer.cs">
+      <DependentUpon>FrmEmprestimos.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\FrmLivros.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="forms\FrmLivros.Designer.cs">
       <DependentUpon>FrmLivros.cs</DependentUpon>
     </Compile>
+    <Compile Include="modelos\emprestimoModelos\Conexao.cs" />
+    <Compile Include="modelos\emprestimoModelos\funcoesEmprestimo.cs" />
+    <Compile Include="modelos\emprestimoModelos\validacaoEmprestimo.cs" />
     <Compile Include="modelos\livrosModelos\Conexao.cs" />
     <Compile Include="modelos\livrosModelos\funcoesLivro.cs" />
     <Compile Include="modelos\livrosModelos\validacaoLivro.cs" />
@@ -69,6 +78,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="forms\FrmClientes.resx">
       <DependentUpon>FrmClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\FrmEmprestimos.resx">
+      <DependentUpon>FrmEmprestimos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\FrmLivros.resx">
       <DependentUpon>FrmLivros.cs</DependentUpon>

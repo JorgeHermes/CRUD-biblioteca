@@ -46,7 +46,6 @@ namespace CRUDbiblioteca.clienteDependencias
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    // REMOVEMOS o qtdDisp do SQL abaixo:
                     string sql = "UPDATE livro SET titulo=@titulo, autor=@autor, anoPublica=@anoPublica, qtdTotal=@qtdTotal WHERE idLivro=@id";
                     SqlCommand cmd = new SqlCommand(sql, conexao);
 

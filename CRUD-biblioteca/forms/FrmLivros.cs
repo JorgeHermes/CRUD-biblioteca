@@ -109,15 +109,10 @@ namespace CRUDbiblioteca
             if (!ValidarCamposObrigatorios()) return;
 
             int id = int.Parse(labIdLivro.Text);
+
             funcoesLivro dao = new funcoesLivro();
 
-            string resultado = dao.EditarLivro(
-                id,
-                txtTitulo.Text,
-                txtAutor.Text,
-                (int)numAno.Value,
-                (int)numQtdTotal.Value
-            );
+            string resultado = dao.EditarLivro(id, txtTitulo.Text, txtAutor.Text, (int)numAno.Value, (int)numQtdTotal.Value);
 
             if (resultado == null)
             {
@@ -193,26 +188,21 @@ namespace CRUDbiblioteca
             int anoPublica = (int)numAno.Value;
             int qtdDigitada = (int)numQtdTotal.Value;
 
-            // 1. Pergunta ao banco se esse par (Título + Autor) já existe
             int idExistente = dao.ObterIdExisteNoBancoLivro(titulo, autor, anoPublica);
 
             if (idExistente > 0)
             {
-                // 2. EXISTE: Vamos somar à quantidade que já está lá
                 DataTable dt = dao.BuscarLivroPorId(idExistente);
                 int totalAtualNoBanco = Convert.ToInt32(dt.Rows[0]["qtdTotal"]);
 
                 int novoTotalAcumulado = totalAtualNoBanco + qtdDigitada;
 
-                // Chamamos o Editar (A sua TRIGGER de Update vai ajustar a qtdDisp sozinha!)
                 dao.EditarLivro(idExistente, titulo, autor, (int)numAno.Value, novoTotalAcumulado);
 
                 MessageBox.Show($"O livro '{titulo}' já existia. Estoque atualizado para {novoTotalAcumulado} unidades.");
             }
             else
             {
-                // 3. NÃO EXISTE: Cadastro normal
-                // Aqui você chama o seu método de CadastrarLivro (INSERT)
                 dao.CadastrarLivro(titulo, autor, (int)numAno.Value, qtdDigitada, qtdDigitada);
                 MessageBox.Show("Livro cadastrado com sucesso!");
             }
@@ -220,5 +210,6 @@ namespace CRUDbiblioteca
             AtualizarGrade();
             LimparCampos();
         }
+
     }
     }

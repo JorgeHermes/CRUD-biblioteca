@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CRUDbiblioteca.forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace CRUDbiblioteca
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmLivros());
+            Application.Run(new FrmEmprestimos());
         }
     }
 }
