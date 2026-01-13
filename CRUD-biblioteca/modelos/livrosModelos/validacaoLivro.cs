@@ -33,10 +33,12 @@ namespace CRUDbiblioteca
                 return "Precisamos saber a quantidade disponivel para controlar o estoque!";
             }
 
-            if (!string.IsNullOrWhiteSpace(this.QtdTotal))
+            if (string.IsNullOrWhiteSpace(this.QtdTotal))
             {
                 return "Precisamos saber a quantidade total para controlar o estoque!.";
             }
+
+
 
             return null;
         }

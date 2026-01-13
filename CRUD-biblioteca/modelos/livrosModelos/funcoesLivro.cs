@@ -68,32 +68,44 @@ namespace CRUDbiblioteca.clienteDependencias
                 }
             }
 
-            public string ExcluirLivro(int id)
+            public string ExcluirLivro(int id, int qtdParaRemover)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = "DELETE FROM livro WHERE idLivro = @id";
-                    SqlCommand cmd = new SqlCommand(sql, conexao);
-
-                    cmd.Parameters.AddWithValue("@id", id);
-
                     try
                     {
                         conexao.Open();
-                        int linhasAfetadas = cmd.ExecuteNonQuery();
 
-                        if (linhasAfetadas > 0)
-                            return null;
+                        string sqlBusca = "SELECT qtdTotal FROM livro WHERE idLivro = @id";
+                        SqlCommand cmdBusca = new SqlCommand(sqlBusca, conexao);
+                        cmdBusca.Parameters.AddWithValue("@id", id);
+
+                        int qtdAtual = Convert.ToInt32(cmdBusca.ExecuteScalar());
+
+                        string sqlFinal;
+                        if (qtdParaRemover >= qtdAtual)
+                        {
+                            sqlFinal = "DELETE FROM livro WHERE idLivro = @id";
+                        }
                         else
-                            return "Nenhum registro encontrado para excluir.";
+                        {
+                            sqlFinal = "UPDATE livro SET qtdTotal = qtdTotal - @qtdRemover WHERE idLivro = @id";
+                        }
+
+                        SqlCommand cmdFinal = new SqlCommand(sqlFinal, conexao);
+                        cmdFinal.Parameters.AddWithValue("@id", id);
+                        cmdFinal.Parameters.AddWithValue("@qtdRemover", qtdParaRemover);
+
+                        cmdFinal.ExecuteNonQuery();
+                        return null;
                     }
                     catch (Exception ex)
                     {
-                        return "Erro ao excluir: " + ex.Message;
+                        return "Erro ao processar exclusão: " + ex.Message;
                     }
                 }
             }
-            
+
             public DataTable ListarLivro()
             {
                 DataTable tabela = new DataTable();

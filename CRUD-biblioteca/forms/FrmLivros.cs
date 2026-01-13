@@ -90,11 +90,6 @@ namespace CRUDbiblioteca
                 return false;
             }
 
-            if (numQtdTotal.Value <= 0)
-            {
-                MessageBox.Show("A quantidade total deve ser pelo menos 1!");
-            }
-
             return true;
         }
 
@@ -137,43 +132,39 @@ namespace CRUDbiblioteca
                 txtTitulo.Text = linha.Cells["titulo"].Value.ToString();
                 numAno.Value = Convert.ToDecimal(linha.Cells["anoPublica"].Value);
                 numQtdDisp.Value = Convert.ToDecimal(linha.Cells["qtdDisp"].Value);
-                numQtdTotal.Value = Convert.ToDecimal(linha.Cells["qtdTotal"].Value);
 
             }
         }
 
         private void btnExcluirLivro_Click(object sender, EventArgs e)
         {
-            if (dgvLivros.CurrentRow==null)
+            int idLivroSelecionado = int.Parse(labIdLivro.Text);
+            if (idLivroSelecionado == 0)
             {
-                MessageBox.Show("Selecione um livro na grade primeiro.");
+                MessageBox.Show("Por favor, selecione um livro na tabela primeiro.");
                 return;
             }
 
-            DialogResult confirmacao = MessageBox.Show("Deseja realmente excluir este livro?", "Confirmação", MessageBoxButtons.YesNo);
+            int qtdParaRemover = (int)numQtdTotal.Value;
 
-            if (confirmacao == DialogResult.Yes)
+            DialogResult confirma = MessageBox.Show($"Deseja remover {qtdParaRemover} unidade(s) deste livro?",
+                "Confirmar Exclusão", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirma == DialogResult.Yes)
             {
-                try
+                funcoesLivro dao = new funcoesLivro();
+
+                string erro = dao.ExcluirLivro(idLivroSelecionado, qtdParaRemover);
+
+                if (erro == null)
                 {
-                    int idSelecionado = Convert.ToInt32(dgvLivros.CurrentRow.Cells[0].Value);
-
-                    funcoesLivro dao = new funcoesLivro();
-                    string erro = dao.ExcluirLivro(idSelecionado);
-
-                    if (erro == null)
-                    {
-                        MessageBox.Show("Livro excluído com sucesso!");
-                        AtualizarGrade();
-                    }
-                    else
-                    {
-                        MessageBox.Show(erro);
-                    }
+                    MessageBox.Show("Estoque atualizado com sucesso!");
+                    AtualizarGrade();
+                    LimparCampos();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Erro ao converter ID: Selecione uma linha válida. " + ex.Message);
+                    MessageBox.Show(erro);
                 }
             }
         }
@@ -188,28 +179,34 @@ namespace CRUDbiblioteca
             int anoPublica = (int)numAno.Value;
             int qtdDigitada = (int)numQtdTotal.Value;
 
+            if (qtdDigitada <= 0)
+            {
+                MessageBox.Show("A quantidade deve ser maior que zero!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             int idExistente = dao.ObterIdExisteNoBancoLivro(titulo, autor, anoPublica);
 
             if (idExistente > 0)
             {
                 DataTable dt = dao.BuscarLivroPorId(idExistente);
                 int totalAtualNoBanco = Convert.ToInt32(dt.Rows[0]["qtdTotal"]);
-
                 int novoTotalAcumulado = totalAtualNoBanco + qtdDigitada;
 
-                dao.EditarLivro(idExistente, titulo, autor, (int)numAno.Value, novoTotalAcumulado);
+                dao.EditarLivro(idExistente, titulo, autor, anoPublica, novoTotalAcumulado);
 
                 MessageBox.Show($"O livro '{titulo}' já existia. Estoque atualizado para {novoTotalAcumulado} unidades.");
+
+                AtualizarGrade();
+                LimparCampos();
+                return;
             }
-            else
-            {
-                dao.CadastrarLivro(titulo, autor, (int)numAno.Value, qtdDigitada, qtdDigitada);
-                MessageBox.Show("Livro cadastrado com sucesso!");
-            }
+
+            dao.CadastrarLivro(titulo, autor, anoPublica, qtdDigitada, qtdDigitada);
+            MessageBox.Show("Livro cadastrado com sucesso!");
 
             AtualizarGrade();
             LimparCampos();
         }
-
     }
     }

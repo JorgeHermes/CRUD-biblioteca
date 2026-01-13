@@ -180,11 +180,11 @@
             // total
             // 
             this.total.AutoSize = true;
-            this.total.Location = new System.Drawing.Point(183, 102);
+            this.total.Location = new System.Drawing.Point(206, 101);
             this.total.Name = "total";
-            this.total.Size = new System.Drawing.Size(91, 13);
+            this.total.Size = new System.Drawing.Size(68, 13);
             this.total.TabIndex = 20;
-            this.total.Text = "Quantidade total :";
+            this.total.Text = "Quantidade :";
             this.total.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labIdLivro
