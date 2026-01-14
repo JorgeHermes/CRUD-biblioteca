@@ -17,7 +17,7 @@ namespace CRUDbiblioteca
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmLivros());
+            Application.Run(new FrmMenu());
         }
     }
 }

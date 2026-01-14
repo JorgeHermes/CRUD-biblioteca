@@ -51,6 +51,8 @@
             this.btnListar = new System.Windows.Forms.Button();
             this.clienteBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.clienteBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.btnVoltar = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clienteBindingSource)).BeginInit();
@@ -63,11 +65,12 @@
             this.btnCadastrar.FlatAppearance.BorderSize = 0;
             this.btnCadastrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCadastrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCadastrar.Location = new System.Drawing.Point(450, 28);
+            this.btnCadastrar.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x165;
+            this.btnCadastrar.Location = new System.Drawing.Point(450, 32);
             this.btnCadastrar.Name = "btnCadastrar";
             this.btnCadastrar.Size = new System.Drawing.Size(161, 23);
             this.btnCadastrar.TabIndex = 1;
-            this.btnCadastrar.Text = "Cadastrar";
+            this.toolTip.SetToolTip(this.btnCadastrar, "Cadastro");
             this.btnCadastrar.UseVisualStyleBackColor = false;
             this.btnCadastrar.Click += new System.EventHandler(this.btnCadastrar_Click);
             // 
@@ -77,11 +80,12 @@
             this.btnEditar.FlatAppearance.BorderSize = 0;
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditar.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x163;
             this.btnEditar.Location = new System.Drawing.Point(450, 71);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(161, 23);
             this.btnEditar.TabIndex = 2;
-            this.btnEditar.Text = "Editar";
+            this.toolTip.SetToolTip(this.btnEditar, "Editar");
             this.btnEditar.UseVisualStyleBackColor = false;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
@@ -91,11 +95,12 @@
             this.btnExcluir.FlatAppearance.BorderSize = 0;
             this.btnExcluir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExcluir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcluir.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x161;
             this.btnExcluir.Location = new System.Drawing.Point(450, 110);
             this.btnExcluir.Name = "btnExcluir";
             this.btnExcluir.Size = new System.Drawing.Size(161, 23);
             this.btnExcluir.TabIndex = 4;
-            this.btnExcluir.Text = "Excluir";
+            this.toolTip.SetToolTip(this.btnExcluir, "Excluir");
             this.btnExcluir.UseVisualStyleBackColor = false;
             this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
@@ -272,12 +277,24 @@
             // 
             this.clienteBindingSource1.DataMember = "cliente";
             // 
+            // btnVoltar
+            // 
+            this.btnVoltar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVoltar.Location = new System.Drawing.Point(582, 460);
+            this.btnVoltar.Name = "btnVoltar";
+            this.btnVoltar.Size = new System.Drawing.Size(75, 23);
+            this.btnVoltar.TabIndex = 20;
+            this.btnVoltar.Text = "Voltar";
+            this.btnVoltar.UseVisualStyleBackColor = true;
+            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
+            // 
             // FrmClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(669, 466);
+            this.ClientSize = new System.Drawing.Size(669, 487);
+            this.Controls.Add(this.btnVoltar);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvClientes);
             this.Controls.Add(this.btnExcluir);
@@ -289,7 +306,6 @@
             this.Name = "FrmClientes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Clientes";
-            this.Load += new System.EventHandler(this.FrmClientes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -323,5 +339,7 @@
         private System.Windows.Forms.MaskedTextBox maskCpf;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label labId;
+        private System.Windows.Forms.Button btnVoltar;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

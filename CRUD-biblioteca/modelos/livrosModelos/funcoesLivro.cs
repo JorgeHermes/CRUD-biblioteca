@@ -131,7 +131,6 @@ namespace CRUDbiblioteca.clienteDependencias
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    // Usamos UPPER para evitar problemas com maiúsculas/minúsculas
                     string sql = "SELECT idLivro FROM livro WHERE UPPER(titulo) = UPPER(@titulo) AND UPPER(autor) = UPPER(@autor) AND UPPER(anoPublica) = UPPER(@anoPublica)";
                     SqlCommand cmd = new SqlCommand(sql, conexao);
                     cmd.Parameters.AddWithValue("@titulo", titulo.Trim());

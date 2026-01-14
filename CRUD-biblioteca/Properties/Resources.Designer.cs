@@ -63,6 +63,46 @@ namespace CRUDbiblioteca.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap android_chrome_192x192 {
+            get {
+                object obj = ResourceManager.GetObject("android-chrome-192x192", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap android_chrome_192x1922 {
+            get {
+                object obj = ResourceManager.GetObject("android-chrome-192x1922", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap android_chrome_512x512 {
+            get {
+                object obj = ResourceManager.GetObject("android-chrome-512x512", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aperto_de_maos {
+            get {
+                object obj = ResourceManager.GetObject("aperto-de-maos", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap apple_touch_icon {
             get {
                 object obj = ResourceManager.GetObject("apple-touch-icon", resourceCulture);
@@ -73,9 +113,119 @@ namespace CRUDbiblioteca.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap apple_touch_icon2 {
+            get {
+                object obj = ResourceManager.GetObject("apple-touch-icon2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap apple_touch_icon3 {
+            get {
+                object obj = ResourceManager.GetObject("apple-touch-icon3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap apple_touch_icon4 {
+            get {
+                object obj = ResourceManager.GetObject("apple-touch-icon4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap favicon_16x16 {
             get {
                 object obj = ResourceManager.GetObject("favicon-16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favicon_16x161 {
+            get {
+                object obj = ResourceManager.GetObject("favicon-16x161", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favicon_16x163 {
+            get {
+                object obj = ResourceManager.GetObject("favicon-16x163", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favicon_16x165 {
+            get {
+                object obj = ResourceManager.GetObject("favicon-16x165", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favicon_16x166 {
+            get {
+                object obj = ResourceManager.GetObject("favicon-16x166", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favicon_16x168 {
+            get {
+                object obj = ResourceManager.GetObject("favicon-16x168", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favicon_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("favicon-32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favicon_32x321 {
+            get {
+                object obj = ResourceManager.GetObject("favicon-32x321", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lixeira {
+            get {
+                object obj = ResourceManager.GetObject("lixeira", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

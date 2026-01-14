@@ -181,6 +181,12 @@ namespace CRUDbiblioteca.forms
                 MessageBox.Show("Erro ao devolver: " + resultado);
             }
         }
+
+        private void btnVoltar_Click(object sender, EventArgs e)
+        {
+            FrmMenu menu = new FrmMenu();
+            menu.Show(this);
+            this.Close();
+        }
     }
 }
-

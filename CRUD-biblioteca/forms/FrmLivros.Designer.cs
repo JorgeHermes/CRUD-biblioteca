@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLivros));
             this.dgvLivros = new System.Windows.Forms.DataGridView();
-            this.btnExcluirLivro = new System.Windows.Forms.Button();
-            this.btnEditarLivro = new System.Windows.Forms.Button();
-            this.btnCadastrarLivro = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.numAno = new System.Windows.Forms.NumericUpDown();
             this.numQtdDisp = new System.Windows.Forms.NumericUpDown();
@@ -47,7 +45,12 @@
             this.Ano = new System.Windows.Forms.Label();
             this.labelTitulo = new System.Windows.Forms.Label();
             this.qtddisp = new System.Windows.Forms.Label();
+            this.btnVoltar = new System.Windows.Forms.Button();
             this.btnListarLivro = new System.Windows.Forms.Button();
+            this.btnExcluirLivro = new System.Windows.Forms.Button();
+            this.btnEditarLivro = new System.Windows.Forms.Button();
+            this.btnCadastrarLivro = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLivros)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAno)).BeginInit();
@@ -79,48 +82,6 @@
             this.dgvLivros.Size = new System.Drawing.Size(778, 285);
             this.dgvLivros.TabIndex = 6;
             this.dgvLivros.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLivros_CellClick);
-            // 
-            // btnExcluirLivro
-            // 
-            this.btnExcluirLivro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.btnExcluirLivro.FlatAppearance.BorderSize = 0;
-            this.btnExcluirLivro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExcluirLivro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExcluirLivro.Location = new System.Drawing.Point(594, 118);
-            this.btnExcluirLivro.Name = "btnExcluirLivro";
-            this.btnExcluirLivro.Size = new System.Drawing.Size(161, 23);
-            this.btnExcluirLivro.TabIndex = 9;
-            this.btnExcluirLivro.Text = "Excluir";
-            this.btnExcluirLivro.UseVisualStyleBackColor = false;
-            this.btnExcluirLivro.Click += new System.EventHandler(this.btnExcluirLivro_Click);
-            // 
-            // btnEditarLivro
-            // 
-            this.btnEditarLivro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.btnEditarLivro.FlatAppearance.BorderSize = 0;
-            this.btnEditarLivro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditarLivro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditarLivro.Location = new System.Drawing.Point(594, 79);
-            this.btnEditarLivro.Name = "btnEditarLivro";
-            this.btnEditarLivro.Size = new System.Drawing.Size(161, 23);
-            this.btnEditarLivro.TabIndex = 8;
-            this.btnEditarLivro.Text = "Editar";
-            this.btnEditarLivro.UseVisualStyleBackColor = false;
-            this.btnEditarLivro.Click += new System.EventHandler(this.btnEditarLivro_Click);
-            // 
-            // btnCadastrarLivro
-            // 
-            this.btnCadastrarLivro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
-            this.btnCadastrarLivro.FlatAppearance.BorderSize = 0;
-            this.btnCadastrarLivro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCadastrarLivro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCadastrarLivro.Location = new System.Drawing.Point(594, 36);
-            this.btnCadastrarLivro.Name = "btnCadastrarLivro";
-            this.btnCadastrarLivro.Size = new System.Drawing.Size(161, 23);
-            this.btnCadastrarLivro.TabIndex = 7;
-            this.btnCadastrarLivro.Text = "Cadastrar";
-            this.btnCadastrarLivro.UseVisualStyleBackColor = false;
-            this.btnCadastrarLivro.Click += new System.EventHandler(this.btnCadastrarLivro_Click);
             // 
             // groupBox2
             // 
@@ -251,6 +212,17 @@
             this.qtddisp.Text = "Quantidade disponivel :";
             this.qtddisp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // btnVoltar
+            // 
+            this.btnVoltar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVoltar.Location = new System.Drawing.Point(715, 460);
+            this.btnVoltar.Name = "btnVoltar";
+            this.btnVoltar.Size = new System.Drawing.Size(75, 23);
+            this.btnVoltar.TabIndex = 30;
+            this.btnVoltar.Text = "Voltar";
+            this.btnVoltar.UseVisualStyleBackColor = true;
+            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
+            // 
             // btnListarLivro
             // 
             this.btnListarLivro.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x16;
@@ -261,11 +233,57 @@
             this.btnListarLivro.UseVisualStyleBackColor = true;
             this.btnListarLivro.Click += new System.EventHandler(this.btnListarLivro_Click);
             // 
+            // btnExcluirLivro
+            // 
+            this.btnExcluirLivro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            this.btnExcluirLivro.FlatAppearance.BorderSize = 0;
+            this.btnExcluirLivro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExcluirLivro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcluirLivro.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x161;
+            this.btnExcluirLivro.Location = new System.Drawing.Point(594, 115);
+            this.btnExcluirLivro.Name = "btnExcluirLivro";
+            this.btnExcluirLivro.Size = new System.Drawing.Size(161, 27);
+            this.btnExcluirLivro.TabIndex = 9;
+            this.toolTip.SetToolTip(this.btnExcluirLivro, "Excluir");
+            this.btnExcluirLivro.UseVisualStyleBackColor = false;
+            this.btnExcluirLivro.Click += new System.EventHandler(this.btnExcluirLivro_Click);
+            // 
+            // btnEditarLivro
+            // 
+            this.btnEditarLivro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnEditarLivro.FlatAppearance.BorderSize = 0;
+            this.btnEditarLivro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditarLivro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditarLivro.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x163;
+            this.btnEditarLivro.Location = new System.Drawing.Point(594, 79);
+            this.btnEditarLivro.Name = "btnEditarLivro";
+            this.btnEditarLivro.Size = new System.Drawing.Size(161, 27);
+            this.btnEditarLivro.TabIndex = 8;
+            this.toolTip.SetToolTip(this.btnEditarLivro, "Editar");
+            this.btnEditarLivro.UseVisualStyleBackColor = false;
+            this.btnEditarLivro.Click += new System.EventHandler(this.btnEditarLivro_Click);
+            // 
+            // btnCadastrarLivro
+            // 
+            this.btnCadastrarLivro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCadastrarLivro.FlatAppearance.BorderSize = 0;
+            this.btnCadastrarLivro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCadastrarLivro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCadastrarLivro.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x165;
+            this.btnCadastrarLivro.Location = new System.Drawing.Point(594, 43);
+            this.btnCadastrarLivro.Name = "btnCadastrarLivro";
+            this.btnCadastrarLivro.Size = new System.Drawing.Size(161, 27);
+            this.btnCadastrarLivro.TabIndex = 7;
+            this.toolTip.SetToolTip(this.btnCadastrarLivro, "Cadastrar");
+            this.btnCadastrarLivro.UseVisualStyleBackColor = false;
+            this.btnCadastrarLivro.Click += new System.EventHandler(this.btnCadastrarLivro_Click);
+            // 
             // FrmLivros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(802, 466);
+            this.ClientSize = new System.Drawing.Size(802, 487);
+            this.Controls.Add(this.btnVoltar);
             this.Controls.Add(this.btnListarLivro);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnExcluirLivro);
@@ -307,5 +325,7 @@
         private System.Windows.Forms.NumericUpDown numAno;
         private System.Windows.Forms.NumericUpDown numQtdTotal;
         private System.Windows.Forms.NumericUpDown numQtdDisp;
+        private System.Windows.Forms.Button btnVoltar;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

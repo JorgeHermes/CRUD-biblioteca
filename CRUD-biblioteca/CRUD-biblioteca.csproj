@@ -59,13 +59,16 @@
     <Compile Include="forms\FrmLivros.Designer.cs">
       <DependentUpon>FrmLivros.cs</DependentUpon>
     </Compile>
-    <Compile Include="modelos\emprestimoModelos\Conexao.cs" />
+    <Compile Include="forms\FrmMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FrmMenu.Designer.cs">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="modelos\emprestimoModelos\funcoesEmprestimo.cs" />
     <Compile Include="modelos\emprestimoModelos\validacaoEmprestimo.cs" />
-    <Compile Include="modelos\livrosModelos\Conexao.cs" />
     <Compile Include="modelos\livrosModelos\funcoesLivro.cs" />
     <Compile Include="modelos\livrosModelos\validacaoLivro.cs" />
-    <Compile Include="modelos\clienteModelos\Conexao.cs" />
     <Compile Include="modelos\clienteModelos\funcoesCliente.cs" />
     <Compile Include="forms\FrmClientes.cs">
       <SubType>Form</SubType>
@@ -85,20 +88,23 @@
     <EmbeddedResource Include="forms\FrmLivros.resx">
       <DependentUpon>FrmLivros.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="forms\FrmMenu.resx">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -114,6 +120,45 @@
   <ItemGroup>
     <None Include="Resources\apple-touch-icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\favicon-32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple-touch-icon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\aperto-de-maos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple-touch-icon3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple-touch-icon4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lixeira.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon-16x161.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon-16x163.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon-16x165.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon-16x166.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon-16x168.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\android-chrome-192x192.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\android-chrome-512x512.png" />
+    <Content Include="Resources\android_chrome_512x5121.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

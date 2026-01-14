@@ -1,4 +1,5 @@
 ﻿using CRUDbiblioteca.clienteDependencias.CRUDbiblioteca;
+using CRUDbiblioteca.forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -207,6 +208,13 @@ namespace CRUDbiblioteca
 
             AtualizarGrade();
             LimparCampos();
+        }
+
+        private void btnVoltar_Click(object sender, EventArgs e)
+        {
+            FrmMenu menu = new FrmMenu();
+            menu.Show(this);
+            this.Close();
         }
     }
     }

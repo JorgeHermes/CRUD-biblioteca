@@ -28,17 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEmprestimos));
             this.dgvEmprestimos = new System.Windows.Forms.DataGridView();
-            this.btnListarEmprestimo = new System.Windows.Forms.Button();
-            this.btnConfirmarEmprestimo = new System.Windows.Forms.Button();
-            this.btnDevolver = new System.Windows.Forms.Button();
-            this.btnEditar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labIdClienteEmp = new System.Windows.Forms.Label();
+            this.labIdLivroEmp = new System.Windows.Forms.Label();
             this.labIdEmprestimo = new System.Windows.Forms.Label();
             this.dataEmprestimo = new System.Windows.Forms.DateTimePicker();
             this.dataDevolucao = new System.Windows.Forms.DateTimePicker();
@@ -46,6 +45,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dataPrevisaoDevolucao = new System.Windows.Forms.DateTimePicker();
+            this.btnEditar = new System.Windows.Forms.Button();
+            this.btnDevolver = new System.Windows.Forms.Button();
             this.dgvLivrosEmprestimos = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.labIdLivro = new System.Windows.Forms.Label();
@@ -59,8 +60,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.labIdLivroEmp = new System.Windows.Forms.Label();
-            this.labIdClienteEmp = new System.Windows.Forms.Label();
+            this.btnConfirmarEmprestimo = new System.Windows.Forms.Button();
+            this.btnVoltar = new System.Windows.Forms.Button();
+            this.btnListarEmprestimo = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmprestimos)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLivrosEmprestimos)).BeginInit();
@@ -86,49 +89,9 @@
             this.dgvEmprestimos.Location = new System.Drawing.Point(444, 209);
             this.dgvEmprestimos.Name = "dgvEmprestimos";
             this.dgvEmprestimos.ReadOnly = true;
-            this.dgvEmprestimos.Size = new System.Drawing.Size(494, 367);
+            this.dgvEmprestimos.Size = new System.Drawing.Size(504, 367);
             this.dgvEmprestimos.TabIndex = 7;
             this.dgvEmprestimos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmprestimos_CellClick);
-            // 
-            // btnListarEmprestimo
-            // 
-            this.btnListarEmprestimo.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x16;
-            this.btnListarEmprestimo.Location = new System.Drawing.Point(923, 3);
-            this.btnListarEmprestimo.Name = "btnListarEmprestimo";
-            this.btnListarEmprestimo.Size = new System.Drawing.Size(25, 25);
-            this.btnListarEmprestimo.TabIndex = 22;
-            this.btnListarEmprestimo.UseVisualStyleBackColor = true;
-            this.btnListarEmprestimo.Click += new System.EventHandler(this.btnListarEmprestimo_Click);
-            // 
-            // btnConfirmarEmprestimo
-            // 
-            this.btnConfirmarEmprestimo.Location = new System.Drawing.Point(328, 152);
-            this.btnConfirmarEmprestimo.Name = "btnConfirmarEmprestimo";
-            this.btnConfirmarEmprestimo.Size = new System.Drawing.Size(75, 23);
-            this.btnConfirmarEmprestimo.TabIndex = 23;
-            this.btnConfirmarEmprestimo.Text = "Confirmar";
-            this.btnConfirmarEmprestimo.UseVisualStyleBackColor = true;
-            this.btnConfirmarEmprestimo.Click += new System.EventHandler(this.btnConfirmarEmprestimo_Click);
-            // 
-            // btnDevolver
-            // 
-            this.btnDevolver.Location = new System.Drawing.Point(397, 79);
-            this.btnDevolver.Name = "btnDevolver";
-            this.btnDevolver.Size = new System.Drawing.Size(75, 23);
-            this.btnDevolver.TabIndex = 24;
-            this.btnDevolver.Text = "Devolver";
-            this.btnDevolver.UseVisualStyleBackColor = true;
-            this.btnDevolver.Click += new System.EventHandler(this.btnDevolver_Click);
-            // 
-            // btnEditar
-            // 
-            this.btnEditar.Location = new System.Drawing.Point(397, 50);
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(75, 23);
-            this.btnEditar.TabIndex = 25;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.UseVisualStyleBackColor = true;
-            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // groupBox1
             // 
@@ -143,16 +106,40 @@
             this.groupBox1.Controls.Add(this.dataPrevisaoDevolucao);
             this.groupBox1.Controls.Add(this.btnEditar);
             this.groupBox1.Controls.Add(this.btnDevolver);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(444, 50);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(494, 143);
+            this.groupBox1.Size = new System.Drawing.Size(504, 143);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Dados Emprestimos Realizado";
             // 
+            // labIdClienteEmp
+            // 
+            this.labIdClienteEmp.AutoSize = true;
+            this.labIdClienteEmp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labIdClienteEmp.Location = new System.Drawing.Point(55, 119);
+            this.labIdClienteEmp.Name = "labIdClienteEmp";
+            this.labIdClienteEmp.Size = new System.Drawing.Size(13, 13);
+            this.labIdClienteEmp.TabIndex = 38;
+            this.labIdClienteEmp.Text = "0";
+            this.labIdClienteEmp.Visible = false;
+            // 
+            // labIdLivroEmp
+            // 
+            this.labIdLivroEmp.AutoSize = true;
+            this.labIdLivroEmp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labIdLivroEmp.Location = new System.Drawing.Point(36, 119);
+            this.labIdLivroEmp.Name = "labIdLivroEmp";
+            this.labIdLivroEmp.Size = new System.Drawing.Size(13, 13);
+            this.labIdLivroEmp.TabIndex = 37;
+            this.labIdLivroEmp.Text = "0";
+            this.labIdLivroEmp.Visible = false;
+            // 
             // labIdEmprestimo
             // 
             this.labIdEmprestimo.AutoSize = true;
+            this.labIdEmprestimo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labIdEmprestimo.Location = new System.Drawing.Point(16, 119);
             this.labIdEmprestimo.Name = "labIdEmprestimo";
             this.labIdEmprestimo.Size = new System.Drawing.Size(13, 13);
@@ -163,6 +150,7 @@
             // dataEmprestimo
             // 
             this.dataEmprestimo.Enabled = false;
+            this.dataEmprestimo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataEmprestimo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dataEmprestimo.Location = new System.Drawing.Point(118, 25);
             this.dataEmprestimo.Name = "dataEmprestimo";
@@ -172,6 +160,7 @@
             // dataDevolucao
             // 
             this.dataDevolucao.Enabled = false;
+            this.dataDevolucao.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataDevolucao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dataDevolucao.Location = new System.Drawing.Point(131, 82);
             this.dataDevolucao.Name = "dataDevolucao";
@@ -181,6 +170,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(16, 85);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(109, 13);
@@ -190,6 +180,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(16, 57);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(150, 13);
@@ -199,6 +190,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(16, 28);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 13);
@@ -207,11 +199,42 @@
             // 
             // dataPrevisaoDevolucao
             // 
+            this.dataPrevisaoDevolucao.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataPrevisaoDevolucao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dataPrevisaoDevolucao.Location = new System.Drawing.Point(172, 54);
             this.dataPrevisaoDevolucao.Name = "dataPrevisaoDevolucao";
             this.dataPrevisaoDevolucao.Size = new System.Drawing.Size(96, 20);
             this.dataPrevisaoDevolucao.TabIndex = 26;
+            // 
+            // btnEditar
+            // 
+            this.btnEditar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnEditar.FlatAppearance.BorderSize = 0;
+            this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditar.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x163;
+            this.btnEditar.Location = new System.Drawing.Point(397, 50);
+            this.btnEditar.Name = "btnEditar";
+            this.btnEditar.Size = new System.Drawing.Size(75, 23);
+            this.btnEditar.TabIndex = 25;
+            this.toolTip.SetToolTip(this.btnEditar, "Editar");
+            this.btnEditar.UseVisualStyleBackColor = false;
+            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
+            // 
+            // btnDevolver
+            // 
+            this.btnDevolver.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnDevolver.FlatAppearance.BorderSize = 0;
+            this.btnDevolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDevolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDevolver.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x168;
+            this.btnDevolver.Location = new System.Drawing.Point(397, 79);
+            this.btnDevolver.Name = "btnDevolver";
+            this.btnDevolver.Size = new System.Drawing.Size(75, 23);
+            this.btnDevolver.TabIndex = 24;
+            this.toolTip.SetToolTip(this.btnDevolver, "Devolver");
+            this.btnDevolver.UseVisualStyleBackColor = false;
+            this.btnDevolver.Click += new System.EventHandler(this.btnDevolver_Click);
             // 
             // dgvLivrosEmprestimos
             // 
@@ -250,6 +273,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.btnConfirmarEmprestimo);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(409, 181);
@@ -260,6 +284,7 @@
             // labIdLivro
             // 
             this.labIdLivro.AutoSize = true;
+            this.labIdLivro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labIdLivro.Location = new System.Drawing.Point(286, 148);
             this.labIdLivro.Name = "labIdLivro";
             this.labIdLivro.Size = new System.Drawing.Size(13, 13);
@@ -271,6 +296,7 @@
             // 
             this.cmbCliente.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbCliente.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCliente.FormattingEnabled = true;
             this.cmbCliente.Location = new System.Drawing.Point(64, 25);
             this.cmbCliente.Name = "cmbCliente";
@@ -280,6 +306,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(12, 28);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(45, 13);
@@ -289,6 +316,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(12, 152);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(147, 13);
@@ -297,6 +325,7 @@
             // 
             // dataPrevista1
             // 
+            this.dataPrevista1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataPrevista1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dataPrevista1.Location = new System.Drawing.Point(158, 148);
             this.dataPrevista1.Name = "dataPrevista1";
@@ -306,6 +335,7 @@
             // txtAno
             // 
             this.txtAno.Enabled = false;
+            this.txtAno.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAno.Location = new System.Drawing.Point(115, 114);
             this.txtAno.Name = "txtAno";
             this.txtAno.Size = new System.Drawing.Size(100, 20);
@@ -314,6 +344,7 @@
             // txtAutor
             // 
             this.txtAutor.Enabled = false;
+            this.txtAutor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAutor.Location = new System.Drawing.Point(50, 82);
             this.txtAutor.Name = "txtAutor";
             this.txtAutor.Size = new System.Drawing.Size(249, 20);
@@ -322,6 +353,7 @@
             // txtTitulo
             // 
             this.txtTitulo.Enabled = false;
+            this.txtTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTitulo.Location = new System.Drawing.Point(51, 53);
             this.txtTitulo.Name = "txtTitulo";
             this.txtTitulo.Size = new System.Drawing.Size(248, 20);
@@ -330,6 +362,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(12, 117);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(106, 13);
@@ -339,6 +372,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 85);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 13);
@@ -348,37 +382,55 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 56);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 24;
             this.label1.Text = "Titulo : ";
             // 
-            // labIdLivroEmp
+            // btnConfirmarEmprestimo
             // 
-            this.labIdLivroEmp.AutoSize = true;
-            this.labIdLivroEmp.Location = new System.Drawing.Point(36, 119);
-            this.labIdLivroEmp.Name = "labIdLivroEmp";
-            this.labIdLivroEmp.Size = new System.Drawing.Size(13, 13);
-            this.labIdLivroEmp.TabIndex = 37;
-            this.labIdLivroEmp.Text = "0";
-            this.labIdLivroEmp.Visible = false;
+            this.btnConfirmarEmprestimo.BackColor = System.Drawing.Color.DarkGray;
+            this.btnConfirmarEmprestimo.FlatAppearance.BorderSize = 0;
+            this.btnConfirmarEmprestimo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfirmarEmprestimo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfirmarEmprestimo.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x166;
+            this.btnConfirmarEmprestimo.Location = new System.Drawing.Point(328, 152);
+            this.btnConfirmarEmprestimo.Name = "btnConfirmarEmprestimo";
+            this.btnConfirmarEmprestimo.Size = new System.Drawing.Size(75, 23);
+            this.btnConfirmarEmprestimo.TabIndex = 23;
+            this.toolTip.SetToolTip(this.btnConfirmarEmprestimo, "Confirmar");
+            this.btnConfirmarEmprestimo.UseVisualStyleBackColor = false;
+            this.btnConfirmarEmprestimo.Click += new System.EventHandler(this.btnConfirmarEmprestimo_Click);
             // 
-            // labIdClienteEmp
+            // btnVoltar
             // 
-            this.labIdClienteEmp.AutoSize = true;
-            this.labIdClienteEmp.Location = new System.Drawing.Point(55, 119);
-            this.labIdClienteEmp.Name = "labIdClienteEmp";
-            this.labIdClienteEmp.Size = new System.Drawing.Size(13, 13);
-            this.labIdClienteEmp.TabIndex = 38;
-            this.labIdClienteEmp.Text = "0";
-            this.labIdClienteEmp.Visible = false;
+            this.btnVoltar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVoltar.Location = new System.Drawing.Point(873, 582);
+            this.btnVoltar.Name = "btnVoltar";
+            this.btnVoltar.Size = new System.Drawing.Size(75, 23);
+            this.btnVoltar.TabIndex = 29;
+            this.btnVoltar.Text = "Voltar";
+            this.btnVoltar.UseVisualStyleBackColor = true;
+            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
+            // 
+            // btnListarEmprestimo
+            // 
+            this.btnListarEmprestimo.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x16;
+            this.btnListarEmprestimo.Location = new System.Drawing.Point(923, 3);
+            this.btnListarEmprestimo.Name = "btnListarEmprestimo";
+            this.btnListarEmprestimo.Size = new System.Drawing.Size(25, 25);
+            this.btnListarEmprestimo.TabIndex = 22;
+            this.btnListarEmprestimo.UseVisualStyleBackColor = true;
+            this.btnListarEmprestimo.Click += new System.EventHandler(this.btnListarEmprestimo_Click);
             // 
             // FrmEmprestimos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 588);
+            this.ClientSize = new System.Drawing.Size(960, 610);
+            this.Controls.Add(this.btnVoltar);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.dgvLivrosEmprestimos);
             this.Controls.Add(this.groupBox1);
@@ -429,5 +481,7 @@
         private System.Windows.Forms.Label labIdLivro;
         private System.Windows.Forms.Label labIdLivroEmp;
         private System.Windows.Forms.Label labIdClienteEmp;
+        private System.Windows.Forms.Button btnVoltar;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
