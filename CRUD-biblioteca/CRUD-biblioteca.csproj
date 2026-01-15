@@ -72,9 +72,7 @@
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="modelos\emprestimoModelos\funcoesEmprestimo.cs" />
-    <Compile Include="modelos\emprestimoModelos\validacaoEmprestimo.cs" />
     <Compile Include="modelos\livrosModelos\funcoesLivro.cs" />
-    <Compile Include="modelos\livrosModelos\validacaoLivro.cs" />
     <Compile Include="modelos\clienteModelos\funcoesCliente.cs" />
     <Compile Include="forms\FrmClientes.cs">
       <SubType>Form</SubType>
@@ -82,7 +80,6 @@
     <Compile Include="forms\FrmClientes.Designer.cs">
       <DependentUpon>FrmClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="modelos\clienteModelos\validacaoCliente.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="forms\FrmClientes.resx">

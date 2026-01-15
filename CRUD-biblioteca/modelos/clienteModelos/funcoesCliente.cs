@@ -115,34 +115,23 @@ namespace CRUDbiblioteca.clienteDependencias
                 return tabela;
             }
 
-            public bool ExisteNoBanco(string coluna, string valor)
+            public bool ExisteNoBanco(string coluna, string valor, int? idParaIgnorar = null)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
                     string sql = $"SELECT COUNT(*) FROM cliente WHERE {coluna} = @valor";
-                    SqlCommand cmd = new SqlCommand(sql, conexao);
-                    cmd.Parameters.AddWithValue("@valor", valor);
 
-                    conexao.Open();
-
-                    int contagem = (int)cmd.ExecuteScalar();
-                    return contagem > 0;
-                }
-            }
-
-            public bool ExisteNoBancoEditar(string coluna, string valor, int idAtual)
-            {
-                using (SqlConnection conexao = new SqlConnection(conexaoString))
-                {
-                    string sql = $"SELECT COUNT(*) FROM cliente WHERE {coluna} = @valor AND idCliente <> @id";
+                    if (idParaIgnorar.HasValue)
+                        sql += " AND idCliente <> @id";
 
                     SqlCommand cmd = new SqlCommand(sql, conexao);
                     cmd.Parameters.AddWithValue("@valor", valor);
-                    cmd.Parameters.AddWithValue("@id", idAtual);
+
+                    if (idParaIgnorar.HasValue)
+                        cmd.Parameters.AddWithValue("@id", idParaIgnorar.Value);
 
                     conexao.Open();
-                    int contagem = (int)cmd.ExecuteScalar();
-                    return contagem > 0;
+                    return (int)cmd.ExecuteScalar() > 0;
                 }
             }
 

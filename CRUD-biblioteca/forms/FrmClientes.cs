@@ -31,23 +31,13 @@ namespace CRUDbiblioteca
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (!ValidarCamposObrigatorios()) return;
+            if (CamposInvalidos()) return;
 
             int idSelecionado = int.Parse(labId.Text);
 
             funcoesCliente dao = new funcoesCliente();
 
-            if (dao.ExisteNoBancoEditar("cpf", maskCpf.Text, idSelecionado))
-            {
-                MessageBox.Show("Este CPF já pertence a OUTRO cliente!");
-                return;
-            }
-
-            if (dao.ExisteNoBancoEditar("email", txtEmail.Text, idSelecionado))
-            {
-                MessageBox.Show("Este Email já pertence a OUTRO cliente!");
-                return;
-            }
+            if (DadosUnicosInvalidos(dao, idSelecionado)) return;
 
             dao.Editar(idSelecionado, txtNome.Text, txtEmail.Text, maskTelefone.Text, maskCpf.Text, cmbTipo.Text);
 
@@ -98,10 +88,9 @@ namespace CRUDbiblioteca
         {
             funcoesCliente dao = new funcoesCliente();
 
-            if (!ValidarCamposObrigatorios()) return;
+            if (CamposInvalidos()) return;
 
-            if (dao.ExisteNoBanco("cpf", maskCpf.Text)) { MessageBox.Show("CPF já existe!"); return; }
-            if (dao.ExisteNoBanco("email", txtEmail.Text)) { MessageBox.Show("Email já existe!"); return; }
+            if(DadosUnicosInvalidos(dao)) return;
 
             string erro = dao.Cadastrar(txtNome.Text, txtEmail.Text, maskTelefone.Text, maskCpf.Text, cmbTipo.Text);
 
@@ -149,37 +138,56 @@ namespace CRUDbiblioteca
             dgvClientes.Columns["idCliente"].Visible = false;
         }
 
-        private bool ValidarCamposObrigatorios()
+        private bool CamposInvalidos()
         {
             if (string.IsNullOrWhiteSpace(txtNome.Text))
             {
                 MessageBox.Show("O Nome é obrigatório.");
                 txtNome.Focus();
-                return false;
+                return true;
             }
 
             if (string.IsNullOrWhiteSpace(txtEmail.Text) || !txtEmail.Text.Contains("@"))
             {
                 MessageBox.Show("Insira um E-mail válido.");
                 txtEmail.Focus();
-                return false;
+                return true;
             }
 
             if (string.IsNullOrWhiteSpace(maskCpf.Text))
             {
                 MessageBox.Show("É necessário o CPF!");
                 maskCpf.Focus();
-                return false;
+                return true;
             }
 
             if (cmbTipo.SelectedIndex == -1)
             {
                 MessageBox.Show("Selecione o Tipo de Cliente.");
                 cmbTipo.Focus();
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
+        }
+
+        private bool DadosUnicosInvalidos(funcoesCliente dao, int? idSelecionado = null)
+        {
+            if (dao.ExisteNoBanco("cpf", maskCpf.Text, idSelecionado)) 
+            { 
+                MessageBox.Show("Este CPF já pertence a OUTRO cliente!");
+                maskCpf.Focus();
+                return true; 
+            }
+
+            if (dao.ExisteNoBanco("email", txtEmail.Text, idSelecionado)) 
+            { 
+                MessageBox.Show("Este Email já pertence a OUTRO cliente!");
+                txtEmail.Focus();
+                return true; 
+            }
+
+            return false;
         }
 
         private void dgvClientes_CellClick_1(object sender, DataGridViewCellEventArgs e)

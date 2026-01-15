@@ -29,7 +29,8 @@ namespace CRUDbiblioteca.forms
                 dgvEmprestimos.DataSource = dao.ListarEmprestimo();
                 dgvLivrosEmprestimos.DataSource = dao.ListarLivroEmprestimo();
                 dgvLivrosEmprestimos.Columns["idLivro"].Visible = false;
-                dgvEmprestimos.Columns["idEmprestimo"].Visible = false;
+                dgvEmprestimos.Columns["idLivro"].Visible=false;
+                dgvEmprestimos.Columns["idCliente"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -97,6 +98,12 @@ namespace CRUDbiblioteca.forms
                 return;
             }
 
+            if (dataPrevista1.Value < DateTime.Today)
+            {
+                MessageBox.Show("A data prevista não pode ser anterior a de hoje!");
+                return;
+            }
+
             int idCliente = Convert.ToInt32(cmbCliente.SelectedValue);
             DateTime dataHoje = DateTime.Now;
 
@@ -138,6 +145,12 @@ namespace CRUDbiblioteca.forms
             if (idEmprestimo == 0) 
             {
                 MessageBox.Show("Selecione um Emprestimo!");
+                return;
+            }
+
+            if (dataPrevisaoDevolucao.Value < DateTime.Today)
+            {
+                MessageBox.Show("A data prevista não pode ser anterior a de hoje!");
                 return;
             }
 
@@ -193,6 +206,11 @@ namespace CRUDbiblioteca.forms
         {
             FrmHistorico telaHistorico = new FrmHistorico();
             telaHistorico.ShowDialog();
+        }
+
+        private void FrmEmprestimos_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

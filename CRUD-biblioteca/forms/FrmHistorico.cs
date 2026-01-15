@@ -32,7 +32,10 @@ namespace CRUDbiblioteca.forms
             DataTable tabela = new DataTable();
             using (SqlConnection conexao = new SqlConnection(conexaoString))
             {
-                string sql = "SELECT * FROM emprestimo";
+                string sql = @"SELECT e.idLivro, l.titulo, e.idCliente, c.nome AS NomeCliente, dataEmprestimo, dataPrevistaDevolucao, dataDevolucao, status
+                             FROM emprestimo e 
+                             LEFT JOIN livro l ON e.idLivro = l.idLivro
+                             LEFT JOIN cliente c ON e.idCliente = c.idCliente";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, conexao);
 
                 try
@@ -51,6 +54,11 @@ namespace CRUDbiblioteca.forms
         private void btnVoltar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmHistorico_Load(object sender, EventArgs e)
+        {
+
         }
     }
 

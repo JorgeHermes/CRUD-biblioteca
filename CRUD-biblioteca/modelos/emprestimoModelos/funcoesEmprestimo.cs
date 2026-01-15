@@ -40,7 +40,11 @@ namespace CRUDbiblioteca.modelos.emprestimoModelos
             DataTable tabela = new DataTable();
             using (SqlConnection conexao = new SqlConnection(conexaoString))
             {
-                string sql = "SELECT * FROM emprestimo WHERE status = 'Ativo'";
+                string sql = @"SELECT e.idEmprestimo, e.idLivro, l.titulo AS TituloLivro, e.idCliente, c.nome AS NomeCliente, dataEmprestimo, dataPrevistaDevolucao, dataDevolucao, status
+                             FROM emprestimo e 
+                             LEFT JOIN livro l ON e.idLivro = l.idLivro
+                             LEFT JOIN cliente c ON e.idCliente = c.idCliente 
+                             WHERE e.status = 'Ativo'";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, conexao);
 
                 try

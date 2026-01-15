@@ -17,15 +17,6 @@ namespace CRUDbiblioteca
 {
     public partial class FrmLivros : Form
     {
-        private static readonly (string chave, string titulo)[] ColunasGrid =
-        {
-            ("idLivro", "Código"),
-            ("titulo", "Título do Livro"),
-            ("autor", "Autor"),
-            ("anoPublica", "Ano"),
-            ("qtdTotal", "Total"),
-            ("qtdDisp", "Disponível")
-        };
 
         public FrmLivros()
         {
@@ -53,25 +44,11 @@ namespace CRUDbiblioteca
             {
                 funcoesLivro dao = new funcoesLivro();
                 dgvLivros.DataSource = dao.ListarLivro();
-                ConfigurarGridLivros();
+                dgvLivros.Columns["idLivro"].Visible = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao carregar dados: " + ex.Message);           
-            }
-        }
-
-        private void ConfigurarGridLivros()
-        {
-            if (dgvLivros.Columns.Contains("idLivro"))
-                dgvLivros.Columns["idLivro"].Visible = false;
-
-            foreach ((string chave, string titulo) in ColunasGrid)
-            {
-                if (dgvLivros.Columns.Contains(chave))
-                {
-                    dgvLivros.Columns[chave].HeaderText = titulo;
-                }
             }
         }
 
