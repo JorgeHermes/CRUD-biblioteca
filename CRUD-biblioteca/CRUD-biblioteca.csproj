@@ -53,6 +53,12 @@
     <Compile Include="forms\FrmEmprestimos.Designer.cs">
       <DependentUpon>FrmEmprestimos.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\FrmHistorico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FrmHistorico.Designer.cs">
+      <DependentUpon>FrmHistorico.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\FrmLivros.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="forms\FrmEmprestimos.resx">
       <DependentUpon>FrmEmprestimos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\FrmHistorico.resx">
+      <DependentUpon>FrmHistorico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\FrmLivros.resx">
       <DependentUpon>FrmLivros.cs</DependentUpon>
@@ -157,8 +166,11 @@
     <None Include="Resources\android-chrome-192x192.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\favicon-16x162.png" />
+    <None Include="Resources\favicon-32x321.png" />
     <None Include="Resources\android-chrome-512x512.png" />
     <Content Include="Resources\android_chrome_512x5121.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

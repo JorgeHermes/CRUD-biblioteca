@@ -188,5 +188,11 @@ namespace CRUDbiblioteca.forms
             menu.Show(this);
             this.Close();
         }
+
+        private void btnHistorico_Click(object sender, EventArgs e)
+        {
+            FrmHistorico telaHistorico = new FrmHistorico();
+            telaHistorico.ShowDialog();
+        }
     }
 }

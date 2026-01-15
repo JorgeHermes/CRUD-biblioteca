@@ -45,8 +45,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dataPrevisaoDevolucao = new System.Windows.Forms.DateTimePicker();
-            this.btnEditar = new System.Windows.Forms.Button();
-            this.btnDevolver = new System.Windows.Forms.Button();
             this.dgvLivrosEmprestimos = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.labIdLivro = new System.Windows.Forms.Label();
@@ -60,10 +58,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnConfirmarEmprestimo = new System.Windows.Forms.Button();
             this.btnVoltar = new System.Windows.Forms.Button();
-            this.btnListarEmprestimo = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnConfirmarEmprestimo = new System.Windows.Forms.Button();
+            this.btnHistorico = new System.Windows.Forms.Button();
+            this.btnEditar = new System.Windows.Forms.Button();
+            this.btnDevolver = new System.Windows.Forms.Button();
+            this.btnListarEmprestimo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmprestimos)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLivrosEmprestimos)).BeginInit();
@@ -95,6 +96,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnHistorico);
             this.groupBox1.Controls.Add(this.labIdClienteEmp);
             this.groupBox1.Controls.Add(this.labIdLivroEmp);
             this.groupBox1.Controls.Add(this.labIdEmprestimo);
@@ -205,36 +207,6 @@
             this.dataPrevisaoDevolucao.Name = "dataPrevisaoDevolucao";
             this.dataPrevisaoDevolucao.Size = new System.Drawing.Size(96, 20);
             this.dataPrevisaoDevolucao.TabIndex = 26;
-            // 
-            // btnEditar
-            // 
-            this.btnEditar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.btnEditar.FlatAppearance.BorderSize = 0;
-            this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditar.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x163;
-            this.btnEditar.Location = new System.Drawing.Point(397, 50);
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(75, 23);
-            this.btnEditar.TabIndex = 25;
-            this.toolTip.SetToolTip(this.btnEditar, "Editar");
-            this.btnEditar.UseVisualStyleBackColor = false;
-            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
-            // 
-            // btnDevolver
-            // 
-            this.btnDevolver.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.btnDevolver.FlatAppearance.BorderSize = 0;
-            this.btnDevolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDevolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDevolver.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x168;
-            this.btnDevolver.Location = new System.Drawing.Point(397, 79);
-            this.btnDevolver.Name = "btnDevolver";
-            this.btnDevolver.Size = new System.Drawing.Size(75, 23);
-            this.btnDevolver.TabIndex = 24;
-            this.toolTip.SetToolTip(this.btnDevolver, "Devolver");
-            this.btnDevolver.UseVisualStyleBackColor = false;
-            this.btnDevolver.Click += new System.EventHandler(this.btnDevolver_Click);
             // 
             // dgvLivrosEmprestimos
             // 
@@ -389,6 +361,17 @@
             this.label1.TabIndex = 24;
             this.label1.Text = "Titulo : ";
             // 
+            // btnVoltar
+            // 
+            this.btnVoltar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVoltar.Location = new System.Drawing.Point(873, 582);
+            this.btnVoltar.Name = "btnVoltar";
+            this.btnVoltar.Size = new System.Drawing.Size(75, 23);
+            this.btnVoltar.TabIndex = 29;
+            this.btnVoltar.Text = "Voltar";
+            this.btnVoltar.UseVisualStyleBackColor = true;
+            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
+            // 
             // btnConfirmarEmprestimo
             // 
             this.btnConfirmarEmprestimo.BackColor = System.Drawing.Color.DarkGray;
@@ -404,16 +387,49 @@
             this.btnConfirmarEmprestimo.UseVisualStyleBackColor = false;
             this.btnConfirmarEmprestimo.Click += new System.EventHandler(this.btnConfirmarEmprestimo_Click);
             // 
-            // btnVoltar
+            // btnHistorico
             // 
-            this.btnVoltar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVoltar.Location = new System.Drawing.Point(873, 582);
-            this.btnVoltar.Name = "btnVoltar";
-            this.btnVoltar.Size = new System.Drawing.Size(75, 23);
-            this.btnVoltar.TabIndex = 29;
-            this.btnVoltar.Text = "Voltar";
-            this.btnVoltar.UseVisualStyleBackColor = true;
-            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
+            this.btnHistorico.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.btnHistorico.FlatAppearance.BorderSize = 0;
+            this.btnHistorico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHistorico.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x162;
+            this.btnHistorico.Location = new System.Drawing.Point(392, 37);
+            this.btnHistorico.Name = "btnHistorico";
+            this.btnHistorico.Size = new System.Drawing.Size(75, 23);
+            this.btnHistorico.TabIndex = 40;
+            this.toolTip.SetToolTip(this.btnHistorico, "Histórico");
+            this.btnHistorico.UseVisualStyleBackColor = false;
+            this.btnHistorico.Click += new System.EventHandler(this.btnHistorico_Click);
+            // 
+            // btnEditar
+            // 
+            this.btnEditar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnEditar.FlatAppearance.BorderSize = 0;
+            this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditar.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x163;
+            this.btnEditar.Location = new System.Drawing.Point(392, 66);
+            this.btnEditar.Name = "btnEditar";
+            this.btnEditar.Size = new System.Drawing.Size(75, 23);
+            this.btnEditar.TabIndex = 25;
+            this.toolTip.SetToolTip(this.btnEditar, "Editar");
+            this.btnEditar.UseVisualStyleBackColor = false;
+            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
+            // 
+            // btnDevolver
+            // 
+            this.btnDevolver.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnDevolver.FlatAppearance.BorderSize = 0;
+            this.btnDevolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDevolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDevolver.Image = global::CRUDbiblioteca.Properties.Resources.favicon_16x168;
+            this.btnDevolver.Location = new System.Drawing.Point(392, 95);
+            this.btnDevolver.Name = "btnDevolver";
+            this.btnDevolver.Size = new System.Drawing.Size(75, 23);
+            this.btnDevolver.TabIndex = 24;
+            this.toolTip.SetToolTip(this.btnDevolver, "Devolver");
+            this.btnDevolver.UseVisualStyleBackColor = false;
+            this.btnDevolver.Click += new System.EventHandler(this.btnDevolver_Click);
             // 
             // btnListarEmprestimo
             // 
@@ -483,5 +499,6 @@
         private System.Windows.Forms.Label labIdClienteEmp;
         private System.Windows.Forms.Button btnVoltar;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button btnHistorico;
     }
 }
