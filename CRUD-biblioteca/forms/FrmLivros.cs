@@ -76,7 +76,9 @@ namespace CRUDbiblioteca
             funcoesLivro dao = new funcoesLivro();
 
             int idAtual = int.Parse(labIdLivro.Text); 
-            string novoTitulo = txtTitulo.Text;
+            string novoTitulo = txtTitulo.Text.Trim();
+            string novoAutor = txtAutor.Text.Trim();
+            int novoAnoPublicacao = int.Parse(numAno.Value.ToString());
             int qtdDigitada = (int)numQtdTotal.Value;
             DataTable dt = dao.BuscarLivroPorId(idAtual);
 
@@ -99,13 +101,15 @@ namespace CRUDbiblioteca
                 }
             }
 
-            if (dao.ExisteNoBanco("livro", "titulo", novoTitulo, "idLivro", idAtual))
+            int idLivro = dao.ValidacaoCadastro(novoTitulo, novoAutor, novoAnoPublicacao);
+
+            if (idLivro > 0)
             {
-                MessageBox.Show("Já existe outro livro com este título cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Já existe outro livro com este cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string erro = dao.EditarLivro(idAtual, novoTitulo, txtAutor.Text, (int)numAno.Value, (int)numQtdTotal.Value);
+            string erro = dao.EditarLivro(idAtual, novoTitulo, txtAutor.Text.Trim(), (int)numAno.Value, (int)numQtdTotal.Value);
 
             if (erro == null)
             {
@@ -177,8 +181,8 @@ namespace CRUDbiblioteca
             if (ValidarCamposObrigatorios()) return;
 
             funcoesLivro dao = new funcoesLivro();
-            string titulo = txtTitulo.Text;
-            string autor = txtAutor.Text;
+            string titulo = txtTitulo.Text.Trim();
+            string autor = txtAutor.Text.Trim();
             int anoPublica = (int)numAno.Value;
             int qtdDigitada = (int)numQtdTotal.Value;
 
@@ -190,7 +194,7 @@ namespace CRUDbiblioteca
 
             try
             {
-                int idExistente = dao.ObterIdLivro(titulo, autor, anoPublica);
+                int idExistente = dao.ValidacaoCadastro(titulo, autor, anoPublica);
 
                 if (idExistente > 0)
                 {

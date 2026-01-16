@@ -123,32 +123,8 @@ namespace CRUDbiblioteca.clienteDependencias
                 }
                 return tabela;
             }
-             
-            public bool ExisteNoBanco(string tabela, string coluna, string valor, string nomeColunaId = "", int? idParaIgnorar = null)
-            {
-                using (SqlConnection conexao = new SqlConnection(conexaoString))
-                {
-                    string sql = $"SELECT COUNT(*) FROM {tabela} WHERE {coluna} = @valor";
 
-                    if (idParaIgnorar.HasValue && !string.IsNullOrEmpty(nomeColunaId))
-                    {
-                        sql += $" AND {nomeColunaId} <> @id";
-                    }
-
-                    SqlCommand cmd = new SqlCommand(sql, conexao);
-                    cmd.Parameters.AddWithValue("@valor", valor);
-
-                    if (idParaIgnorar.HasValue)
-                    {
-                        cmd.Parameters.AddWithValue("@id", idParaIgnorar.Value);
-                    }
-
-                    conexao.Open();
-                    return (int)cmd.ExecuteScalar() > 0;
-                }
-            }
-
-            public int ObterIdLivro(string titulo, string autor, int anoPublica)
+            public int ValidacaoCadastro(string titulo, string autor, int anoPublica)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {

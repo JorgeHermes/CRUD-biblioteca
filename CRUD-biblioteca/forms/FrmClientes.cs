@@ -39,7 +39,7 @@ namespace CRUDbiblioteca
 
             if (DadosUnicosInvalidos(dao, idSelecionado)) return;
 
-            dao.Editar(idSelecionado, txtNome.Text, txtEmail.Text, maskTelefone.Text, maskCpf.Text, cmbTipo.Text);
+            dao.Editar(idSelecionado, txtNome.Text.Trim(), txtEmail.Text.Trim(), maskTelefone.Text.Trim(), maskCpf.Text.Trim(), cmbTipo.Text.Trim());
 
             MessageBox.Show("Dados atualizados com sucesso!");
             AtualizarGrade();
@@ -92,7 +92,7 @@ namespace CRUDbiblioteca
 
             if(DadosUnicosInvalidos(dao)) return;
 
-            string erro = dao.Cadastrar(txtNome.Text, txtEmail.Text, maskTelefone.Text, maskCpf.Text, cmbTipo.Text);
+            string erro = dao.Cadastrar(txtNome.Text.Trim(), txtEmail.Text.Trim(), maskTelefone.Text.Trim(), maskCpf.Text.Trim(), cmbTipo.Text.Trim());
 
             if (erro == null)
             {

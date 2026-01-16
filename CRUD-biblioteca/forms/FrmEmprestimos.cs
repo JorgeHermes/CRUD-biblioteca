@@ -171,7 +171,7 @@ namespace CRUDbiblioteca.forms
         private void btnDevolver_Click(object sender, EventArgs e)
         {
             int idEmprestimo = int.Parse(labIdEmprestimo.Text);
-            DateTime dataDev = DateTime.Now;
+            DateTime dataDev = DateTime.Today;
 
             funcoesEmprestimo dao = new funcoesEmprestimo();
 
