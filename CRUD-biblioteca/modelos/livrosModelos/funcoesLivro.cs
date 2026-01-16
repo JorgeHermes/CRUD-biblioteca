@@ -42,19 +42,17 @@ namespace CRUDbiblioteca.clienteDependencias
                 }
             }
 
-            public string EditarLivro(int id, string titulo, string autor, int anoPublica, int qtdTotal, int qtdDisp)
+            public string EditarLivro(int id, string titulo, string autor, int anoPublica, int qtdTotal)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    // Adicionamos qtdDisp=@qtdDisp no UPDATE
-                    string sql = "UPDATE livro SET titulo=@titulo, autor=@autor, anoPublica=@anoPublica, qtdTotal=@qtdTotal, qtdDisp=@qtdDisp WHERE idLivro=@id";
+                    string sql = "UPDATE livro SET titulo=@titulo, autor=@autor, anoPublica=@anoPublica, qtdTotal=@qtdTotal WHERE idLivro=@id";
                     SqlCommand cmd = new SqlCommand(sql, conexao);
 
                     cmd.Parameters.AddWithValue("@titulo", titulo);
                     cmd.Parameters.AddWithValue("@autor", autor);
                     cmd.Parameters.AddWithValue("@anoPublica", anoPublica);
                     cmd.Parameters.AddWithValue("@qtdTotal", qtdTotal);
-                    cmd.Parameters.AddWithValue("@qtdDisp", qtdDisp); 
                     cmd.Parameters.AddWithValue("@id", id);
 
                     try
@@ -63,10 +61,7 @@ namespace CRUDbiblioteca.clienteDependencias
                         cmd.ExecuteNonQuery();
                         return null;
                     }
-                    catch (Exception ex)
-                    {
-                        return "Erro ao editar: " + ex.Message;
-                    }
+                    catch (Exception ex) { return "Erro: " + ex.Message; }
                 }
             }
 

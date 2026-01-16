@@ -52,17 +52,17 @@ namespace CRUDbiblioteca
             {
                 MessageBox.Show("O autor é obrigatório.");
                 txtAutor.Focus();
-                return false;
+                return true;
             }
 
             if (string.IsNullOrWhiteSpace(txtTitulo.Text))
             {
                 MessageBox.Show("O título é necessário para organizarmos o estoque!");
                 txtTitulo.Focus();
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         private void btnListarLivro_Click(object sender, EventArgs e)
@@ -77,6 +77,27 @@ namespace CRUDbiblioteca
 
             int idAtual = int.Parse(labIdLivro.Text); 
             string novoTitulo = txtTitulo.Text;
+            int qtdDigitada = (int)numQtdTotal.Value;
+            DataTable dt = dao.BuscarLivroPorId(idAtual);
+
+            if (qtdDigitada <= 0)
+            {
+                MessageBox.Show("A quantidade deve ser maior que zero!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+           
+            if (dt.Rows.Count > 0)
+            {
+                int totalNoBanco = Convert.ToInt32(dt.Rows[0]["qtdTotal"]);
+                int dispNoBanco = Convert.ToInt32(dt.Rows[0]["qtdDisp"]);
+                int qtdEmprestada = totalNoBanco - dispNoBanco;
+
+                if (qtdDigitada < qtdEmprestada)
+                {
+                    MessageBox.Show($"Erro: Você não pode reduzir o estoque para {qtdDigitada} porque existem {qtdEmprestada} livros emprestados.");
+                    return;
+                }
+            }
 
             if (dao.ExisteNoBanco("livro", "titulo", novoTitulo, "idLivro", idAtual))
             {
@@ -84,7 +105,7 @@ namespace CRUDbiblioteca
                 return;
             }
 
-            string erro = dao.EditarLivro(idAtual, novoTitulo, txtAutor.Text, (int)numAno.Value, (int)numQtdTotal.Value, (int)numQtdDisp.Value);
+            string erro = dao.EditarLivro(idAtual, novoTitulo, txtAutor.Text, (int)numAno.Value, (int)numQtdTotal.Value);
 
             if (erro == null)
             {
@@ -153,7 +174,7 @@ namespace CRUDbiblioteca
 
         private void btnCadastrarLivro_Click(object sender, EventArgs e)
         {
-            if (!ValidarCamposObrigatorios()) return;
+            if (ValidarCamposObrigatorios()) return;
 
             funcoesLivro dao = new funcoesLivro();
             string titulo = txtTitulo.Text;
@@ -182,7 +203,7 @@ namespace CRUDbiblioteca
 
                         int novoTotal = totalAtual + qtdDigitada;
 
-                        dao.EditarLivro(idExistente, titulo, autor, anoPublica, novoTotal, dispAtual);
+                        dao.EditarLivro(idExistente, titulo, autor, anoPublica, novoTotal);
                         MessageBox.Show($"Foram adicionadas {qtdDigitada} unidades ao livro '{titulo}'.\nO estoque agora é de {novoTotal} unidades.", "Estoque Atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }

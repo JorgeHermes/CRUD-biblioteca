@@ -19,7 +19,7 @@ namespace CRUDbiblioteca.modelos.emprestimoModelos
             DataTable tabela = new DataTable();
             using (SqlConnection conexao = new SqlConnection(conexaoString))
             {
-                string sql = "SELECT idLivro,titulo,autor,anoPublica FROM livro WHERE qtdDisp > 0";
+                string sql = "SELECT idLivro,titulo, autor, anoPublica, qtdDisp FROM livro WHERE qtdDisp > 0";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, conexao);
 
                 try
