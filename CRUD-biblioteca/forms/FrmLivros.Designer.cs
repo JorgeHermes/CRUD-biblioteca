@@ -295,7 +295,6 @@
             this.Name = "FrmLivros";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Livros";
-            this.Load += new System.EventHandler(this.FrmLivros_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLivros)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();

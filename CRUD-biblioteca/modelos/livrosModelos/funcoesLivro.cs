@@ -42,17 +42,19 @@ namespace CRUDbiblioteca.clienteDependencias
                 }
             }
 
-            public string EditarLivro(int id, string titulo, string autor, int anoPublica, int qtdTotal)
+            public string EditarLivro(int id, string titulo, string autor, int anoPublica, int qtdTotal, int qtdDisp)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = "UPDATE livro SET titulo=@titulo, autor=@autor, anoPublica=@anoPublica, qtdTotal=@qtdTotal WHERE idLivro=@id";
+                    // Adicionamos qtdDisp=@qtdDisp no UPDATE
+                    string sql = "UPDATE livro SET titulo=@titulo, autor=@autor, anoPublica=@anoPublica, qtdTotal=@qtdTotal, qtdDisp=@qtdDisp WHERE idLivro=@id";
                     SqlCommand cmd = new SqlCommand(sql, conexao);
 
                     cmd.Parameters.AddWithValue("@titulo", titulo);
                     cmd.Parameters.AddWithValue("@autor", autor);
                     cmd.Parameters.AddWithValue("@anoPublica", anoPublica);
                     cmd.Parameters.AddWithValue("@qtdTotal", qtdTotal);
+                    cmd.Parameters.AddWithValue("@qtdDisp", qtdDisp); 
                     cmd.Parameters.AddWithValue("@id", id);
 
                     try
@@ -76,23 +78,23 @@ namespace CRUDbiblioteca.clienteDependencias
                     {
                         conexao.Open();
 
-                        string sqlBusca = "SELECT qtdTotal FROM livro WHERE idLivro = @id";
-                        SqlCommand cmdBusca = new SqlCommand(sqlBusca, conexao);
+                        string sql = "SELECT qtdTotal FROM livro WHERE idLivro = @id";
+                        SqlCommand cmdBusca = new SqlCommand(sql, conexao);
                         cmdBusca.Parameters.AddWithValue("@id", id);
 
                         int qtdAtual = Convert.ToInt32(cmdBusca.ExecuteScalar());
 
-                        string sqlFinal;
+                        string sqlDel;
                         if (qtdParaRemover >= qtdAtual)
                         {
-                            sqlFinal = "DELETE FROM livro WHERE idLivro = @id";
+                            sqlDel = "DELETE FROM livro WHERE idLivro = @id";
                         }
                         else
                         {
-                            sqlFinal = "UPDATE livro SET qtdTotal = qtdTotal - @qtdRemover WHERE idLivro = @id";
+                            sqlDel = "UPDATE livro SET qtdTotal = qtdTotal - @qtdRemover WHERE idLivro = @id";
                         }
 
-                        SqlCommand cmdFinal = new SqlCommand(sqlFinal, conexao);
+                        SqlCommand cmdFinal = new SqlCommand(sqlDel, conexao);
                         cmdFinal.Parameters.AddWithValue("@id", id);
                         cmdFinal.Parameters.AddWithValue("@qtdRemover", qtdParaRemover);
 
@@ -126,40 +128,45 @@ namespace CRUDbiblioteca.clienteDependencias
                 }
                 return tabela;
             }
-
-            public int ObterIdExisteNoBancoLivro(string titulo, string autor, int anoPublica)
+             
+            public bool ExisteNoBanco(string tabela, string coluna, string valor, string nomeColunaId = "", int? idParaIgnorar = null)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = "SELECT idLivro FROM livro WHERE UPPER(titulo) = UPPER(@titulo) AND UPPER(autor) = UPPER(@autor) AND UPPER(anoPublica) = UPPER(@anoPublica)";
-                    SqlCommand cmd = new SqlCommand(sql, conexao);
-                    cmd.Parameters.AddWithValue("@titulo", titulo.Trim());
-                    cmd.Parameters.AddWithValue("@autor", autor.Trim());
-                    cmd.Parameters.AddWithValue("@anoPublica", anoPublica);
+                    string sql = $"SELECT COUNT(*) FROM {tabela} WHERE {coluna} = @valor";
 
-                    try
+                    if (idParaIgnorar.HasValue && !string.IsNullOrEmpty(nomeColunaId))
                     {
-                        conexao.Open();
-                        object resultado = cmd.ExecuteScalar();
-                        return (resultado != null) ? Convert.ToInt32(resultado) : 0;
+                        sql += $" AND {nomeColunaId} <> @id";
                     }
-                    catch { return 0; }
-                }
-            }
-
-            public bool ExisteNoBancoEditarLivro(string coluna, string valor, int idAtual)
-            {
-                using (SqlConnection conexao = new SqlConnection(conexaoString))
-                {
-                    string sql = $"SELECT COUNT(*) FROM livro WHERE {coluna} = @valor AND idLivro <> @id";
 
                     SqlCommand cmd = new SqlCommand(sql, conexao);
                     cmd.Parameters.AddWithValue("@valor", valor);
-                    cmd.Parameters.AddWithValue("@id", idAtual);
+
+                    if (idParaIgnorar.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue("@id", idParaIgnorar.Value);
+                    }
 
                     conexao.Open();
-                    int contagem = (int)cmd.ExecuteScalar();
-                    return contagem > 0;
+                    return (int)cmd.ExecuteScalar() > 0;
+                }
+            }
+
+            public int ObterIdLivro(string titulo, string autor, int anoPublica)
+            {
+                using (SqlConnection conexao = new SqlConnection(conexaoString))
+                {
+                    string sql = "SELECT idLivro FROM livro WHERE titulo = @t AND autor = @a AND anoPublica = @ano";
+                    SqlCommand cmd = new SqlCommand(sql, conexao);
+                    cmd.Parameters.AddWithValue("@t", titulo);
+                    cmd.Parameters.AddWithValue("@a", autor);
+                    cmd.Parameters.AddWithValue("@ano", anoPublica);
+
+                    conexao.Open();
+                    object resultado = cmd.ExecuteScalar();
+
+                    return (resultado != null) ? Convert.ToInt32(resultado) : 0;
                 }
             }
 

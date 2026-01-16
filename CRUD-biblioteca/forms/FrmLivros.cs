@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,15 +22,8 @@ namespace CRUDbiblioteca
         public FrmLivros()
         {
             InitializeComponent();
-        }
-
-        private void FrmLivros_Load(object sender, EventArgs e)
-        {
             AtualizarGrade();
         }
-
-
-
         private void LimparCampos() 
         {
             txtAutor.Clear();
@@ -79,23 +73,27 @@ namespace CRUDbiblioteca
 
         private void btnEditarLivro_Click(object sender, EventArgs e)
         {
-            if (!ValidarCamposObrigatorios()) return;
-
-            int id = int.Parse(labIdLivro.Text);
-
             funcoesLivro dao = new funcoesLivro();
 
-            string resultado = dao.EditarLivro(id, txtTitulo.Text, txtAutor.Text, (int)numAno.Value, (int)numQtdTotal.Value);
+            int idAtual = int.Parse(labIdLivro.Text); 
+            string novoTitulo = txtTitulo.Text;
 
-            if (resultado == null)
+            if (dao.ExisteNoBanco("livro", "titulo", novoTitulo, "idLivro", idAtual))
             {
-                MessageBox.Show("Livro atualizado!");
+                MessageBox.Show("Já existe outro livro com este título cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string erro = dao.EditarLivro(idAtual, novoTitulo, txtAutor.Text, (int)numAno.Value, (int)numQtdTotal.Value, (int)numQtdDisp.Value);
+
+            if (erro == null)
+            {
+                MessageBox.Show("Livro editado com sucesso!");
                 AtualizarGrade();
-                LimparCampos();
             }
             else
             {
-                MessageBox.Show(resultado);
+                MessageBox.Show(erro);
             }
         }
 
@@ -120,6 +118,12 @@ namespace CRUDbiblioteca
             if (idLivroSelecionado == 0)
             {
                 MessageBox.Show("Por favor, selecione um livro na tabela primeiro.");
+                return;
+            }
+
+            if (numQtdTotal.Value == 0) 
+            {
+                MessageBox.Show("Por favor, selecione a quantidade desejada.");
                 return;
             }
 
@@ -163,28 +167,38 @@ namespace CRUDbiblioteca
                 return;
             }
 
-            int idExistente = dao.ObterIdExisteNoBancoLivro(titulo, autor, anoPublica);
-
-            if (idExistente > 0)
+            try
             {
-                DataTable dt = dao.BuscarLivroPorId(idExistente);
-                int totalAtualNoBanco = Convert.ToInt32(dt.Rows[0]["qtdTotal"]);
-                int novoTotalAcumulado = totalAtualNoBanco + qtdDigitada;
+                int idExistente = dao.ObterIdLivro(titulo, autor, anoPublica);
 
-                dao.EditarLivro(idExistente, titulo, autor, anoPublica, novoTotalAcumulado);
+                if (idExistente > 0)
+                {
+                    DataTable dt = dao.BuscarLivroPorId(idExistente);
 
-                MessageBox.Show($"O livro '{titulo}' já existia. Estoque atualizado para {novoTotalAcumulado} unidades.");
+                    if (dt.Rows.Count > 0)
+                    {
+                        int totalAtual = Convert.ToInt32(dt.Rows[0]["qtdTotal"]);
+                        int dispAtual = Convert.ToInt32(dt.Rows[0]["qtdDisp"]);
+
+                        int novoTotal = totalAtual + qtdDigitada;
+
+                        dao.EditarLivro(idExistente, titulo, autor, anoPublica, novoTotal, dispAtual);
+                        MessageBox.Show($"Foram adicionadas {qtdDigitada} unidades ao livro '{titulo}'.\nO estoque agora é de {novoTotal} unidades.", "Estoque Atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    dao.CadastrarLivro(titulo, autor, anoPublica, qtdDigitada, qtdDigitada);
+                    MessageBox.Show("Livro cadastrado com sucesso!");
+                }
 
                 AtualizarGrade();
                 LimparCampos();
-                return;
             }
-
-            dao.CadastrarLivro(titulo, autor, anoPublica, qtdDigitada, qtdDigitada);
-            MessageBox.Show("Livro cadastrado com sucesso!");
-
-            AtualizarGrade();
-            LimparCampos();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao salvar: " + ex.Message);
+            }
         }
 
         private void btnVoltar_Click(object sender, EventArgs e)
