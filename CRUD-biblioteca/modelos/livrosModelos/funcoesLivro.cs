@@ -124,7 +124,7 @@ namespace CRUDbiblioteca.clienteDependencias
                 return tabela;
             }
 
-            public int ValidacaoCadastro(string titulo, string autor, int anoPublica)
+            public int ObterIdLivro(string titulo, string autor, int anoPublica)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {

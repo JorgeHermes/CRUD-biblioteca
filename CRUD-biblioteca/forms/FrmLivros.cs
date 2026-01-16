@@ -101,7 +101,7 @@ namespace CRUDbiblioteca
                 }
             }
 
-            int idLivro = dao.ValidacaoCadastro(novoTitulo, novoAutor, novoAnoPublicacao);
+            int idLivro = dao.ObterIdLivro(novoTitulo, novoAutor, novoAnoPublicacao);
 
             if (idLivro > 0)
             {
@@ -194,7 +194,7 @@ namespace CRUDbiblioteca
 
             try
             {
-                int idExistente = dao.ValidacaoCadastro(titulo, autor, anoPublica);
+                int idExistente = dao.ObterIdLivro(titulo, autor, anoPublica);
 
                 if (idExistente > 0)
                 {
