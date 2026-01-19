@@ -14,7 +14,7 @@ namespace CRUDbiblioteca.modelos.emprestimoModelos
     {
         private string conexaoString = ConfigurationManager.ConnectionStrings["SQLSERVER_LOCAL"].ConnectionString;
 
-        public DataTable ListarLivroEmprestimo()
+        public DataTable ListarLivros()
         {
             DataTable tabela = new DataTable();
             using (SqlConnection conexao = new SqlConnection(conexaoString))
@@ -35,7 +35,7 @@ namespace CRUDbiblioteca.modelos.emprestimoModelos
             return tabela;
         }
 
-        public DataTable ListarEmprestimo()
+        public DataTable ListarEmprestimos()
         {
             DataTable tabela = new DataTable();
             using (SqlConnection conexao = new SqlConnection(conexaoString))

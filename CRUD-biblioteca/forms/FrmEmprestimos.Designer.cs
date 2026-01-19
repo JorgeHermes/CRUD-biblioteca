@@ -457,7 +457,6 @@
             this.Name = "FrmEmprestimos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Emprestimos";
-            this.Load += new System.EventHandler(this.FrmEmprestimos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmprestimos)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

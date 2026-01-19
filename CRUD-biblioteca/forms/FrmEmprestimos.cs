@@ -26,8 +26,9 @@ namespace CRUDbiblioteca.forms
             try
             {
                 funcoesEmprestimo dao = new funcoesEmprestimo();
-                dgvEmprestimos.DataSource = dao.ListarEmprestimo();
-                dgvLivrosEmprestimos.DataSource = dao.ListarLivroEmprestimo();
+
+                dgvEmprestimos.DataSource = dao.ListarEmprestimos();
+                dgvLivrosEmprestimos.DataSource = dao.ListarLivros();
                 dgvLivrosEmprestimos.Columns["idLivro"].Visible = false;
                 dgvEmprestimos.Columns["idLivro"].Visible=false;
                 dgvEmprestimos.Columns["idCliente"].Visible = false;
@@ -206,11 +207,6 @@ namespace CRUDbiblioteca.forms
         {
             FrmHistorico telaHistorico = new FrmHistorico();
             telaHistorico.ShowDialog();
-        }
-
-        private void FrmEmprestimos_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

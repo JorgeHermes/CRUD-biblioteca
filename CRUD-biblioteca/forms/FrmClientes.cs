@@ -33,6 +33,7 @@ namespace CRUDbiblioteca
         {
             if (CamposInvalidos()) return;
 
+
             int idSelecionado = int.Parse(labId.Text);
 
             funcoesCliente dao = new funcoesCliente();
@@ -92,6 +93,7 @@ namespace CRUDbiblioteca
 
             if(DadosUnicosInvalidos(dao)) return;
 
+
             string erro = dao.Cadastrar(txtNome.Text.Trim(), txtEmail.Text.Trim(), maskTelefone.Text.Trim(), maskCpf.Text.Trim(), cmbTipo.Text.Trim());
 
             if (erro == null)
@@ -140,6 +142,12 @@ namespace CRUDbiblioteca
 
         private bool CamposInvalidos()
         {
+            if (!string.IsNullOrEmpty(maskTelefone.Text) && maskTelefone.Text.Length < 11)
+            {
+                MessageBox.Show(@"Telefone incompleto! Por favor verifique e tente novamente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return true;
+            }
+
             if (string.IsNullOrWhiteSpace(txtNome.Text))
             {
                 MessageBox.Show("O Nome é obrigatório.");
@@ -165,6 +173,13 @@ namespace CRUDbiblioteca
             {
                 MessageBox.Show("Selecione o Tipo de Cliente.");
                 cmbTipo.Focus();
+                return true;
+            }
+
+            int cpf = maskCpf.Text.Length;
+            if (cpf < 11)
+            {
+                MessageBox.Show(@"CPF incompleto! Por favor verifique e tente novamente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return true;
             }
 
