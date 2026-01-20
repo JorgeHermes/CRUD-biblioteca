@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,32 +15,24 @@ namespace CRUDbiblioteca.forms
 {
     public partial class FrmEmprestimos : Form
     {
+        funcoesEmprestimo dao = new funcoesEmprestimo();
         public FrmEmprestimos()
         {
             InitializeComponent();
             AtualizarGrades();
             CarregarClientes();
+            dgvEmprestimos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvLivrosEmprestimos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void AtualizarGrades()
         {
-            try
-            {
-                funcoesEmprestimo dao = new funcoesEmprestimo();
-
-                dgvEmprestimos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgvLivrosEmprestimos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgvEmprestimos.DataSource = dao.ListarEmprestimos();
-                dgvLivrosEmprestimos.DataSource = dao.ListarLivros();
-                dgvLivrosEmprestimos.Columns["idLivro"].Visible = false;
-                dgvEmprestimos.Columns["idLivro"].Visible=false;
-                dgvEmprestimos.Columns["idCliente"].Visible = false;
-                dgvEmprestimos.Columns["idEmprestimo"].Visible = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar dados: " + ex.Message);
-            }
+            dgvEmprestimos.DataSource = dao.ListarEmprestimos();
+            dgvLivrosEmprestimos.DataSource = dao.ListarLivros();
+            dgvLivrosEmprestimos.Columns["idLivro"].Visible = false;
+            dgvEmprestimos.Columns["idLivro"].Visible=false;
+            dgvEmprestimos.Columns["idCliente"].Visible = false;
+            dgvEmprestimos.Columns["idEmprestimo"].Visible = false;
         }
 
         private void dgvLivrosEmprestimos_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -113,18 +106,17 @@ namespace CRUDbiblioteca.forms
 
             DateTime dataPrevisaoDevolucao = dataPrevista1.Value;
 
-            funcoesEmprestimo dao = new funcoesEmprestimo();
             string erro = dao.CriarEmprestimo(idLivroSelecionado, idCliente, dataHoje, dataPrevisaoDevolucao);
 
             if (erro == null)
             {
-                MessageBox.Show("Empréstimo registrado hoje: " + dataHoje.ToShortDateString());
-                AtualizarGrades();
+                MessageBox.Show("Empréstimo registrado com sucesso!\nData: " + dataHoje.ToShortDateString());
+                AtualizarGrades(); // Atualiza tanto a grade de livros quanto a de empréstimos
                 LimparCampos();
             }
             else
             {
-                MessageBox.Show("Erro: " + erro);
+                MessageBox.Show(erro, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -142,9 +134,6 @@ namespace CRUDbiblioteca.forms
             int idLivro = int.Parse(labIdLivroEmp.Text);
             int idCliente = int.Parse(labIdClienteEmp.Text);
             DateTime dataPrev = dataPrevisaoDevolucao.Value;
-
-
-            funcoesEmprestimo dao = new funcoesEmprestimo();
 
             if (idEmprestimo == 0) 
             {
@@ -176,8 +165,7 @@ namespace CRUDbiblioteca.forms
         {
             int idEmprestimo = int.Parse(labIdEmprestimo.Text);
             DateTime dataDev = DateTime.Today;
-
-            funcoesEmprestimo dao = new funcoesEmprestimo();
+            int idLivro = int.Parse(labIdLivroEmp.Text);
 
             if (idEmprestimo == 0)
             {
@@ -185,7 +173,7 @@ namespace CRUDbiblioteca.forms
                 return;
             }
 
-            string resultado = dao.DevolverLivro(idEmprestimo, dataDev);
+            string resultado = dao.DevolverLivro(idEmprestimo, idLivro, dataDev);
 
             if (resultado == null)
             {

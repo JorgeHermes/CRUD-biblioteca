@@ -15,6 +15,22 @@ namespace CRUDbiblioteca.clienteDependencias
         {
             private string conexaoString = ConfigurationManager.ConnectionStrings["SQLSERVER_LOCAL"].ConnectionString;
 
+            public bool TemEmprestimoAtivo(string campoId, int id)
+            {
+                using (SqlConnection conexao = new SqlConnection(conexaoString))
+                {
+                    string sql = $"SELECT COUNT(0) FROM emprestimo WHERE {campoId} = @id AND status = 'Ativo'";
+
+                    SqlCommand cmd = new SqlCommand(sql, conexao);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    conexao.Open();
+                    object resultado = cmd.ExecuteScalar();
+
+                    return resultado != null && Convert.ToInt32(resultado) > 0;
+                }
+            }
+
             public string Cadastrar(string nome, string email, string telefone, string CPF,string TipoCliente)
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
@@ -72,24 +88,28 @@ namespace CRUDbiblioteca.clienteDependencias
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = "DELETE FROM cliente WHERE idCliente = @id";
-                    SqlCommand cmd = new SqlCommand(sql, conexao);
-
-                    cmd.Parameters.AddWithValue("@id", id);
+                    conexao.Open();
+                    SqlTransaction transacao = conexao.BeginTransaction();
 
                     try
                     {
-                        conexao.Open();
-                        int linhasAfetadas = cmd.ExecuteNonQuery();
+                        string sqlHist = "DELETE FROM emprestimo WHERE idCliente = @id";
+                        SqlCommand cmdHist = new SqlCommand(sqlHist, conexao, transacao);
+                        cmdHist.Parameters.AddWithValue("@id", id);
+                        cmdHist.ExecuteNonQuery();
 
-                        if (linhasAfetadas > 0)
-                            return null;
-                        else
-                            return "Nenhum registro encontrado para excluir.";
+                        string sqlCli = "DELETE FROM cliente WHERE idCliente = @id";
+                        SqlCommand cmdCli = new SqlCommand(sqlCli, conexao, transacao);
+                        cmdCli.Parameters.AddWithValue("@id", id);
+                        cmdCli.ExecuteNonQuery();
+
+                        transacao.Commit();
+                        return null;
                     }
                     catch (Exception ex)
                     {
-                        return "Erro ao excluir: " + ex.Message;
+                        transacao.Rollback();
+                        return "Erro ao excluir cliente: " + ex.Message;
                     }
                 }
             }

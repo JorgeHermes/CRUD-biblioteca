@@ -18,33 +18,27 @@ namespace CRUDbiblioteca
 {
     public partial class FrmLivros : Form
     {
+        funcoesLivro dao = new funcoesLivro();
 
         public FrmLivros()
         {
             InitializeComponent();
             AtualizarGrade();
+            dgvLivros.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
-        private void LimparCampos() 
+        private void LimparCampos()
         {
             txtAutor.Clear();
             txtTitulo.Clear();
             numQtdTotal.Value = 0;
             numQtdDisp.Value = 0;
+            labIdLivro.Text = "0";
         }
 
         private void AtualizarGrade()
         {
-            try 
-            {
-                funcoesLivro dao = new funcoesLivro();
-                dgvLivros.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgvLivros.DataSource = dao.ListarLivro();
-                dgvLivros.Columns["idLivro"].Visible = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar dados: " + ex.Message);           
-            }
+            dgvLivros.DataSource = dao.ListarLivro();
+            dgvLivros.Columns["idLivro"].Visible = false;
         }
 
         private bool ValidarCamposObrigatorios()
@@ -74,48 +68,46 @@ namespace CRUDbiblioteca
 
         private void btnEditarLivro_Click(object sender, EventArgs e)
         {
-            funcoesLivro dao = new funcoesLivro();
-
-            int idAtual = int.Parse(labIdLivro.Text); 
+            int idAtual = int.Parse(labIdLivro.Text);
             string novoTitulo = txtTitulo.Text.Trim();
             string novoAutor = txtAutor.Text.Trim();
-            int novoAnoPublicacao = int.Parse(numAno.Value.ToString());
-            int qtdDigitada = (int)numQtdTotal.Value;
-            DataTable dt = dao.BuscarLivroPorId(idAtual);
+            int novoAnoPublicacao = (int)numAno.Value;
+            int novaQtdTotal = (int)numQtdTotal.Value;
 
-            if (qtdDigitada <= 0)
+            if (idAtual <= 0)
+            {
+                MessageBox.Show("Selecione um livro na tabela primeiro!");
+                return;
+            }
+
+            if (novaQtdTotal <= 0)
             {
                 MessageBox.Show("A quantidade deve ser maior que zero!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-           
-            if (dt.Rows.Count > 0)
+            int novaDispCalculada = dao.CalcularNovaDisponibilidade(idAtual, novaQtdTotal);
+
+            if (novaDispCalculada < 0)
             {
-                int totalNoBanco = Convert.ToInt32(dt.Rows[0]["qtdTotal"]);
-                int dispNoBanco = Convert.ToInt32(dt.Rows[0]["qtdDisp"]);
-                int qtdEmprestada = totalNoBanco - dispNoBanco;
-
-                if (qtdDigitada < qtdEmprestada)
-                {
-                    MessageBox.Show($"Erro: Você não pode reduzir o estoque para {qtdDigitada} porque existem {qtdEmprestada} livros emprestados.");
-                    return;
-                }
-            }
-
-            int idLivro = dao.ObterIdLivro(novoTitulo, novoAutor, novoAnoPublicacao);
-
-            if (idLivro > 0 && idLivro != idAtual)
-            {
-                MessageBox.Show("Já existe outro livro com este cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                int qtdEmprestada = novaQtdTotal - novaDispCalculada;
+                MessageBox.Show($"Erro: Existem livros emprestados. O estoque total mínimo deve ser {novaQtdTotal - novaDispCalculada}.");
                 return;
             }
 
-            string erro = dao.EditarLivro(idAtual, novoTitulo, txtAutor.Text.Trim(), (int)numAno.Value, (int)numQtdTotal.Value);
+            int idExistente = dao.ObterIdLivro(novoTitulo, novoAutor, novoAnoPublicacao);
+            if (idExistente > 0 && idExistente != idAtual)
+            {
+                MessageBox.Show("Já existe outro livro com estes dados cadastrados!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string erro = dao.EditarLivro(idAtual, novoTitulo, novoAutor, novoAnoPublicacao, novaQtdTotal, novaDispCalculada);
 
             if (erro == null)
             {
                 MessageBox.Show("Livro editado com sucesso!");
                 AtualizarGrade();
+                LimparCampos();
             }
             else
             {
@@ -134,35 +126,28 @@ namespace CRUDbiblioteca
                 txtTitulo.Text = linha.Cells["titulo"].Value.ToString();
                 numAno.Value = Convert.ToDecimal(linha.Cells["anoPublica"].Value);
                 numQtdDisp.Value = Convert.ToDecimal(linha.Cells["qtdDisp"].Value);
+                numQtdTotal.Value = Convert.ToDecimal(linha.Cells["qtdTotal"].Value);
 
             }
         }
 
         private void btnExcluirLivro_Click(object sender, EventArgs e)
         {
-            int idLivroSelecionado = int.Parse(labIdLivro.Text);
-            if (idLivroSelecionado == 0)
-            {
-                MessageBox.Show("Por favor, selecione um livro na tabela primeiro.");
-                return;
-            }
-
-            if (numQtdTotal.Value == 0) 
-            {
-                MessageBox.Show("Por favor, selecione a quantidade desejada.");
-                return;
-            }
-
+            int idSelecionado = int.Parse(labIdLivro.Text);
             int qtdParaRemover = (int)numQtdTotal.Value;
 
-            DialogResult confirma = MessageBox.Show($"Deseja remover {qtdParaRemover} unidade(s) deste livro?",
-                "Confirmar Exclusão", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (idSelecionado <= 0 || qtdParaRemover <= 0 || labIdLivro.Text == "0")
+            {
+                MessageBox.Show("Selecione um livro e uma quantidade válida.");
+                return;
+            }
+
+            DialogResult confirma = MessageBox.Show($"Deseja remover {qtdParaRemover} unidade(s) do estoque?",
+                "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirma == DialogResult.Yes)
             {
-                funcoesLivro dao = new funcoesLivro();
-
-                string erro = dao.ExcluirLivro(idLivroSelecionado, qtdParaRemover);
+                string erro = dao.ExcluirLivro(idSelecionado, qtdParaRemover);
 
                 if (erro == null)
                 {
@@ -172,7 +157,7 @@ namespace CRUDbiblioteca
                 }
                 else
                 {
-                    MessageBox.Show(erro);
+                    MessageBox.Show(erro, "Aviso de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -181,11 +166,13 @@ namespace CRUDbiblioteca
         {
             if (!ValidarCamposObrigatorios()) return;
 
-            funcoesLivro dao = new funcoesLivro();
+            int idAtual = int.Parse(labIdLivro.Text);
             string titulo = txtTitulo.Text.Trim();
             string autor = txtAutor.Text.Trim();
             int anoPublica = (int)numAno.Value;
             int qtdDigitada = (int)numQtdTotal.Value;
+            int novaQtd = (int)numQtdTotal.Value;
+            int qtdDisp = (int)numQtdDisp.Value + novaQtd;
 
             if (qtdDigitada <= 0)
             {
@@ -208,7 +195,7 @@ namespace CRUDbiblioteca
 
                         int novoTotal = totalAtual + qtdDigitada;
 
-                        dao.EditarLivro(idExistente, titulo, autor, anoPublica, novoTotal);
+                        dao.EditarLivro(idExistente, titulo, autor, anoPublica, novoTotal, qtdDisp);
                         MessageBox.Show($"Foram adicionadas {qtdDigitada} unidades ao livro '{titulo}'.\nO estoque agora é de {novoTotal} unidades.", "Estoque Atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -234,4 +221,4 @@ namespace CRUDbiblioteca
             this.Close();
         }
     }
-    }
+}

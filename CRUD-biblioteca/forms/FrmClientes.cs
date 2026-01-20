@@ -17,10 +17,13 @@ namespace CRUDbiblioteca
 {
     public partial class FrmClientes : Form
     {
+        funcoesCliente dao = new funcoesCliente();
+
         public FrmClientes()
         {
             InitializeComponent();
             AtualizarGrade();
+            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void btnListar_Click(object sender, EventArgs e)
@@ -36,8 +39,6 @@ namespace CRUDbiblioteca
 
             int idSelecionado = int.Parse(labId.Text);
 
-            funcoesCliente dao = new funcoesCliente();
-
             if (DadosUnicos(dao, idSelecionado)) return;
 
             dao.Editar(idSelecionado, txtNome.Text.Trim(), txtEmail.Text.Trim(), maskTelefone.Text.Trim(), maskCpf.Text.Trim(), cmbTipo.Text.Trim());
@@ -50,36 +51,37 @@ namespace CRUDbiblioteca
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-            if (dgvClientes.CurrentRow == null)
+            if (dgvClientes.CurrentRow == null || string.IsNullOrEmpty(labId.Text) || labId.Text == "0")
             {
                 MessageBox.Show("Selecione um cliente na grade primeiro.");
                 return;
             }
 
-            DialogResult confirmacao = MessageBox.Show("Deseja realmente excluir este cliente?", "Confirmação", MessageBoxButtons.YesNo);
+            int idSelecionado = int.Parse(labId.Text);
+
+            if (dao.TemEmprestimoAtivo("idCliente", idSelecionado))
+            {
+                MessageBox.Show("Não é possível excluir este cliente pois ele possui empréstimos ativos.",
+                                "Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult confirmacao = MessageBox.Show("Deseja realmente excluir este cliente? Isso apagará também o histórico de empréstimos já concluídos.",
+                                                      "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirmacao == DialogResult.Yes)
             {
-                try
+                string erro = dao.Excluir(idSelecionado);
+
+                if (erro == null)
                 {
-                    int idSelecionado = Convert.ToInt32(dgvClientes.CurrentRow.Cells[0].Value);
-
-                    funcoesCliente dao = new funcoesCliente();
-                    string erro = dao.Excluir(idSelecionado);
-
-                    if (erro == null)
-                    {
-                        MessageBox.Show("Cliente removido com sucesso!");
-                        AtualizarGrade();
-                    }
-                    else
-                    {
-                        MessageBox.Show(erro);
-                    }
+                    MessageBox.Show("Cliente removido com sucesso!");
+                    AtualizarGrade();
+                    LimparCampos();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Erro ao converter ID: Selecione uma linha válida. " + ex.Message);
+                    MessageBox.Show(erro);
                 }
             }
         }
@@ -87,8 +89,6 @@ namespace CRUDbiblioteca
 
         private void btnCadastrar_Click(object sender, EventArgs e)
         {
-            funcoesCliente dao = new funcoesCliente();
-
             if (CamposInvalidos()) return;
 
             if(DadosUnicos(dao)) return;
@@ -117,14 +117,13 @@ namespace CRUDbiblioteca
             maskTelefone.Clear();
             cmbTipo.SelectedIndex = -1;
             txtNome.Focus();
+            labId.Text = "0";
         }
 
         private void AtualizarGrade()
         {
-            funcoesCliente dao = new funcoesCliente();
             dgvClientes.DataSource = dao.Listar();                                     
             dgvClientes.Columns["idCliente"].Visible = false;
-            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private bool CamposInvalidos()

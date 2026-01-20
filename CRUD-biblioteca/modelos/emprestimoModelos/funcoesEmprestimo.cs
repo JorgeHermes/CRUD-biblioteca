@@ -60,31 +60,46 @@ namespace CRUDbiblioteca.modelos.emprestimoModelos
             return tabela;
         }
 
-        public string CriarEmprestimo(int idLivro, int idCliente, DateTime dataEmprestimo, DateTime dataPrevistaDevolucao)
+        public string CriarEmprestimo(int idLivro, int idCliente, DateTime dataEmp, DateTime dataPrevista)
         {
             using (SqlConnection conexao = new SqlConnection(conexaoString))
             {
-                string sql = "INSERT INTO emprestimo (idLivro,IdCliente,dataEmprestimo,dataPrevistaDevolucao,dataDevolucao,status) VALUES (@idLivro, @idCliente, @data, @dataPrev,NULL ,'Ativo')";
-
-                SqlCommand cmd = new SqlCommand(sql, conexao);
-                cmd.Parameters.AddWithValue("@idLivro", idLivro);
-                cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                cmd.Parameters.AddWithValue("@data", dataEmprestimo);
-                cmd.Parameters.AddWithValue("@dataPrev", dataPrevistaDevolucao);
+                conexao.Open();
+                SqlTransaction transacao = conexao.BeginTransaction();
 
                 try
                 {
-                    conexao.Open();
-                    cmd.ExecuteNonQuery();
+                    string sqlEmp = @"INSERT INTO emprestimo (idLivro, idCliente, dataEmprestimo, dataPrevistaDevolucao, status) 
+                              VALUES (@idL, @idC, @dataE, @dataP, 'Ativo')";
+
+                    SqlCommand cmdEmp = new SqlCommand(sqlEmp, conexao, transacao);
+                    cmdEmp.Parameters.AddWithValue("@idL", idLivro);
+                    cmdEmp.Parameters.AddWithValue("@idC", idCliente);
+                    cmdEmp.Parameters.AddWithValue("@dataE", dataEmp);
+                    cmdEmp.Parameters.AddWithValue("@dataP", dataPrevista);
+                    cmdEmp.ExecuteNonQuery();
+
+                    string sqlLivro = "UPDATE livro SET qtdDisp -= 1 WHERE idLivro = @idL AND qtdDisp > 0";
+                    SqlCommand cmdLivro = new SqlCommand(sqlLivro, conexao, transacao);
+                    cmdLivro.Parameters.AddWithValue("@idL", idLivro);
+
+                    int linhasAfetadas = cmdLivro.ExecuteNonQuery();
+
+                    if (linhasAfetadas == 0)
+                    {
+                        transacao.Rollback();
+                        return "Infelizmente o livro acabou de ficar indisponível.";
+                    }
+
+                    transacao.Commit();
                     return null;
                 }
                 catch (Exception ex)
                 {
-                    return ex.Message;
+                    transacao.Rollback();
+                    return "Erro ao processar empréstimo: " + ex.Message;
                 }
             }
-
-            
         }
 
         public string EditarEmprestimo(int idEmprestimo, int idLivro, int idCliente, DateTime dataPrev)
@@ -112,29 +127,46 @@ namespace CRUDbiblioteca.modelos.emprestimoModelos
             }
         }
 
-        public string DevolverLivro(int idEmprestimo, DateTime dataDev) 
+        public string DevolverLivro(int idEmprestimo, int idLivro ,DateTime dataDev) 
         {
             using (SqlConnection conexao = new SqlConnection(conexaoString))
             {
-                string sql = "UPDATE emprestimo SET dataDevolucao = @dataDev WHERE idEmprestimo = @idEmprestimo AND dataDevolucao IS NULL";
-
-                SqlCommand cmd = new SqlCommand (sql, conexao);
-                cmd.Parameters.AddWithValue("@idEmprestimo",idEmprestimo);
-                cmd.Parameters.AddWithValue("@dataDev", dataDev);
+                conexao.Open();
+                SqlTransaction transacao = conexao.BeginTransaction();
 
                 try
                 {
-                    conexao.Open();
-                    int linhas = cmd.ExecuteNonQuery();
+                    // 1. Atualiza o empréstimo
+                    // Adicionamos AND status = 'Ativo' para garantir que não devolveremos o mesmo livro duas vezes
+                    string sqlEmp = @"UPDATE emprestimo 
+                              SET dataDevolucao = GETDATE(), status = 'Concluído' 
+                              WHERE idEmprestimo = @idEmp AND status = 'Ativo'";
 
-                    if (linhas == 0)
-                        return "Este empréstimo já foi devolvido ou não existe.";
+                    SqlCommand cmdEmp = new SqlCommand(sqlEmp, conexao, transacao);
+                    cmdEmp.Parameters.AddWithValue("@idEmp", idEmprestimo);
 
-                    return null;
+                    int linhasAfetadas = cmdEmp.ExecuteNonQuery();
+
+                    // Se nenhuma linha foi afetada, o empréstimo já estava concluído ou não existe
+                    if (linhasAfetadas == 0)
+                    {
+                        transacao.Rollback();
+                        return "Este empréstimo já foi devolvido ou é inválido.";
+                    }
+
+                    // 2. Incrementa o estoque usando o operador +=
+                    string sqlLivro = "UPDATE livro SET qtdDisp += 1 WHERE idLivro = @idLivro";
+                    SqlCommand cmdLivro = new SqlCommand(sqlLivro, conexao, transacao);
+                    cmdLivro.Parameters.AddWithValue("@idLivro", idLivro);
+                    cmdLivro.ExecuteNonQuery();
+
+                    transacao.Commit();
+                    return null; // Sucesso
                 }
                 catch (Exception ex)
                 {
-                    return ex.Message;
+                    transacao.Rollback();
+                    return "Erro ao processar devolução: " + ex.Message;
                 }
             }
         }
