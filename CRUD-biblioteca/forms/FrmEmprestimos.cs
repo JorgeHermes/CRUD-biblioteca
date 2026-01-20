@@ -27,11 +27,14 @@ namespace CRUDbiblioteca.forms
             {
                 funcoesEmprestimo dao = new funcoesEmprestimo();
 
+                dgvEmprestimos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgvLivrosEmprestimos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgvEmprestimos.DataSource = dao.ListarEmprestimos();
                 dgvLivrosEmprestimos.DataSource = dao.ListarLivros();
                 dgvLivrosEmprestimos.Columns["idLivro"].Visible = false;
                 dgvEmprestimos.Columns["idLivro"].Visible=false;
                 dgvEmprestimos.Columns["idCliente"].Visible = false;
+                dgvEmprestimos.Columns["idEmprestimo"].Visible = false;
             }
             catch (Exception ex)
             {

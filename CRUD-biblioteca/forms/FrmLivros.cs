@@ -37,6 +37,7 @@ namespace CRUDbiblioteca
             try 
             {
                 funcoesLivro dao = new funcoesLivro();
+                dgvLivros.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgvLivros.DataSource = dao.ListarLivro();
                 dgvLivros.Columns["idLivro"].Visible = false;
             }
@@ -52,17 +53,17 @@ namespace CRUDbiblioteca
             {
                 MessageBox.Show("O autor é obrigatório.");
                 txtAutor.Focus();
-                return true;
+                return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtTitulo.Text))
             {
                 MessageBox.Show("O título é necessário para organizarmos o estoque!");
                 txtTitulo.Focus();
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         private void btnListarLivro_Click(object sender, EventArgs e)
@@ -103,7 +104,7 @@ namespace CRUDbiblioteca
 
             int idLivro = dao.ObterIdLivro(novoTitulo, novoAutor, novoAnoPublicacao);
 
-            if (idLivro > 0)
+            if (idLivro > 0 && idLivro != idAtual)
             {
                 MessageBox.Show("Já existe outro livro com este cadastrado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -178,7 +179,7 @@ namespace CRUDbiblioteca
 
         private void btnCadastrarLivro_Click(object sender, EventArgs e)
         {
-            if (ValidarCamposObrigatorios()) return;
+            if (!ValidarCamposObrigatorios()) return;
 
             funcoesLivro dao = new funcoesLivro();
             string titulo = txtTitulo.Text.Trim();

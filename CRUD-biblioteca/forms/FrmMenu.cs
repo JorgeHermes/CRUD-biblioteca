@@ -34,5 +34,10 @@ namespace CRUDbiblioteca.forms
                 telaEmprestimos.Show();
             
         }
+
+        private void FrmMenu_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

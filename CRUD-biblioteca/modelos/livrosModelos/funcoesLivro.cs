@@ -108,7 +108,7 @@ namespace CRUDbiblioteca.clienteDependencias
                 DataTable tabela = new DataTable();
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = "SELECT * FROM livro";
+                    string sql = "SELECT idLivro,titulo, autor, anoPublica, qtdTotal, qtdDisp FROM livro";
                     SqlDataAdapter adapter = new SqlDataAdapter(sql, conexao);
 
                     try

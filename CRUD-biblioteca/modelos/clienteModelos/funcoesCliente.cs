@@ -119,7 +119,7 @@ namespace CRUDbiblioteca.clienteDependencias
             {
                 using (SqlConnection conexao = new SqlConnection(conexaoString))
                 {
-                    string sql = $"SELECT COUNT(*) FROM cliente WHERE {coluna} = @valor";
+                    string sql = $"SELECT COUNT(0) FROM cliente WHERE {coluna} = @valor";
 
                     if (idParaIgnorar.HasValue)
                         sql += " AND idCliente <> @id";

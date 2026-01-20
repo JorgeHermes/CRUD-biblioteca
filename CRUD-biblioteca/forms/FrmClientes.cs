@@ -38,7 +38,7 @@ namespace CRUDbiblioteca
 
             funcoesCliente dao = new funcoesCliente();
 
-            if (DadosUnicosInvalidos(dao, idSelecionado)) return;
+            if (DadosUnicos(dao, idSelecionado)) return;
 
             dao.Editar(idSelecionado, txtNome.Text.Trim(), txtEmail.Text.Trim(), maskTelefone.Text.Trim(), maskCpf.Text.Trim(), cmbTipo.Text.Trim());
 
@@ -91,7 +91,7 @@ namespace CRUDbiblioteca
 
             if (CamposInvalidos()) return;
 
-            if(DadosUnicosInvalidos(dao)) return;
+            if(DadosUnicos(dao)) return;
 
 
             string erro = dao.Cadastrar(txtNome.Text.Trim(), txtEmail.Text.Trim(), maskTelefone.Text.Trim(), maskCpf.Text.Trim(), cmbTipo.Text.Trim());
@@ -121,23 +121,10 @@ namespace CRUDbiblioteca
 
         private void AtualizarGrade()
         {
-            try
-            {
-                funcoesCliente dao = new funcoesCliente();
-                dgvClientes.DataSource = dao.Listar();
-
-                if (dgvClientes.Columns.Contains("id"))
-                {
-                    dgvClientes.Columns["id"].HeaderText = "Código";
-                    dgvClientes.Columns["id"].DisplayIndex = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar dados: " + ex.Message);
-            }
-
+            funcoesCliente dao = new funcoesCliente();
+            dgvClientes.DataSource = dao.Listar();                                     
             dgvClientes.Columns["idCliente"].Visible = false;
+            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private bool CamposInvalidos()
@@ -186,7 +173,7 @@ namespace CRUDbiblioteca
             return false;
         }
 
-        private bool DadosUnicosInvalidos(funcoesCliente dao, int? idSelecionado = null)
+        private bool DadosUnicos(funcoesCliente dao, int? idSelecionado = null)
         {
             if (dao.ExisteNoBanco("cpf", maskCpf.Text, idSelecionado)) 
             { 

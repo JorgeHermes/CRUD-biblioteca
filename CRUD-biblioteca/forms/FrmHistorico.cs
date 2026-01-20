@@ -25,6 +25,9 @@ namespace CRUDbiblioteca.forms
         private void GerarHistorico() 
         {
             dgvHisto.DataSource = ListarEmprestimo();
+            dgvHisto.Columns["idCliente"].Visible = false;
+            dgvHisto.Columns["idLivro"].Visible = false;
+            dgvHisto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private DataTable ListarEmprestimo()
@@ -54,11 +57,6 @@ namespace CRUDbiblioteca.forms
         private void btnVoltar_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void FrmHistorico_Load(object sender, EventArgs e)
-        {
-
         }
     }
 

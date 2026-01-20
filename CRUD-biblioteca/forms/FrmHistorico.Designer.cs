@@ -80,7 +80,6 @@
             this.Name = "FrmHistorico";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Historico";
-            this.Load += new System.EventHandler(this.FrmHistorico_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHisto)).EndInit();
             this.ResumeLayout(false);
 
